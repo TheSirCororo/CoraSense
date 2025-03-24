@@ -1,0 +1,72 @@
+version: '3'
+services:
+  backend:
+    build:
+      context: .
+    ports:
+      - "${SERVER_PORT}:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ad-images:/srv/ad-images
+    environment:
+      POSTGRES_USERNAME: ${POSTGRES_USERNAME}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_JDBC_URL: ${POSTGRES_JDBC_URL}
+      SERVER_PORT: 8080
+      UPLOAD_IMAGE_DIR: /srv/ad-images
+      IMAGE_STORAGE_TYPE: ${IMAGE_STORAGE_TYPE}
+      S3_ENDPOINT: ${S3_ENDPOINT}
+      S3_KEY_ID: ${S3_KEY_ID}
+      S3_KEY_VALUE: ${S3_KEY_VALUE}
+      S3_BUCKET: ${S3_BUCKET}
+      GROQ_API_KEY: ${GROQ_API_KEY}
+      LLM_ENABLED: ${LLM_ENABLED}
+      GROQ_BASE_URL: ${GROQ_BASE_URL}
+      MODERATION_ENABLED: ${MODERATION_ENABLED}
+      MODERATION_MODE: ${MODERATION_MODE}
+      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN}
+      TELEGRAM_BOT_ENABLED: ${TELEGRAM_BOT_ENABLED}
+  postgres:
+    image: 'postgres:latest'
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_USER: ${POSTGRES_USERNAME}
+    healthcheck:
+      test: [ "CMD", "pg_isready" ]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    volumes:
+      - db-data:/var/lib/postgresql/data
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    restart: unless-stopped
+    ports:
+      - '9090:9090'
+    volumes:
+      - 'prometheus-storage:/prometheus'
+      - './prometheus/prometheus.yml:/etc/prometheus/prometheus.yml'
+  grafana:
+    image: grafana/grafana-enterprise
+    container_name: grafana
+    restart: unless-stopped
+    depends_on:
+      - prometheus
+    environment:
+      - GF_PLUGINS_PREINSTALL=grafana-clock-panel
+    ports:
+      - '3000:3000'
+    volumes:
+      - 'grafana-storage:/var/lib/grafana'
+      - './grafana/dashboards:/etc/grafana/provisioning/dashboards/general'
+      - './grafana/dashboard.yml:/etc/grafana/provisioning/dashboards/dashboard.yml'
+      - './grafana/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yml'
+volumes:
+  db-data:
+  ad-images:
+  grafana-storage:
+  prometheus-storage:

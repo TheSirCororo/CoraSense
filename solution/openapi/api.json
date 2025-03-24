@@ -1,0 +1,2275 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "CoraSense API",
+    "description": "Агрегатор рекламных объявлений.",
+    "version": "latest"
+  },
+  "externalDocs": {
+    "url": "/"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080",
+      "description": "Server"
+    }
+  ],
+  "tags": [],
+  "paths": {
+    "/ping": {
+      "get": {
+        "tags": [],
+        "summary": "Проверка доступности приложения.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "headers": {
+
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "title": "String"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/clients/{clientId}": {
+      "get": {
+        "tags": [],
+        "summary": "Получение информации о клиенте по его ID",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "description": "ID клиента",
+            "required": true,
+            "deprecated": false,
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "title": "String"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "headers": {
+
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ru.cororo.corasense.model.client.data.Client"
+                }
+              }
+            }
+          },
+          "404": {
+            "headers": {
+
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ru.cororo.corasense.model.dto.StatusResponse.Error"
+                },
+                "examples": {
+                  "Error": {
+                    "value": {
+                      "message": "Клиента с таким ID не существует!",
+                      "statusCode": 3,
+                      "httpCode": 404
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/clients/bulk": {
+      "post": {
+        "tags": [],
+        "summary": "Создание/сохранение информации о клиентах",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/ru.cororo.corasense.model.client.data.Client"
+                },
+                "title": "List\u003CClient\u003E"
+              }
+            }
+          },
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "headers": {
+
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ru.cororo.corasense.model.client.data.Client"
+                  },
+                  "title": "List\u003CClient\u003E"
+                }
+              }
+            }
+          },
+          "400": {
+            "headers": {
+
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ru.cororo.corasense.model.dto.StatusResponse.Error"
+                },
+                "examples": {
+                  "Bad body": {
+                    "value": {
+                      "message": "Формат запроса неверный!",
+                      "statusCode": 2,
+                      "httpCode": 400
+                    }
+                  },
+                  "Moderation": {
+                    "value": {
+                      "message": "Текст этого запроса не прошёл модерацию! Причина: Отклонено модерацией.",
+                      "statusCode": 9,
+                      "httpCode": 400
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/advertisers/{advertiserId}": {
+      "get": {
+        "tags": [],
+        "summary": "Получение информации о рекламодателе по его ID",
+        "parameters": [
+          {
+            "name": "advertiserId",
+            "in": "path",
+            "description": "ID рекламодателя",
+            "required": true,
+            "deprecated": false,
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "title": "String"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "headers": {
+
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ru.cororo.corasense.model.advertiser.data.Advertiser"
+                }
+              }
+            }
+          },
+          "404": {
+            "headers": {
+
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ru.cororo.corasense.model.dto.StatusResponse.Error"
+                },
+                "examples": {
+                  "Error": {
+                    "value": {
+                      "message": "Рекламодателя с таким ID не существует!",
+                      "statusCode": 4,
+                      "httpCode": 404
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/advertisers/bulk": {
+      "post": {
+        "tags": [],
+        "summary": "Создание/сохранение информации о рекламодателях",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/ru.cororo.corasense.model.advertiser.data.Advertiser"
+                },
+                "title": "List\u003CAdvertiser\u003E"
+              }
+            }
+          },
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "headers": {
+
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ru.cororo.corasense.model.advertiser.data.Advertiser"
+                  },
+                  "title": "List\u003CAdvertiser\u003E"
+                }
+              }
+            }
+          },
+          "400": {
+            "headers": {
+
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ru.cororo.corasense.model.dto.StatusResponse.Error"
+                },
+                "examples": {
+                  "Bad body": {
+                    "value": {
+                      "message": "Формат запроса неверный!",
+                      "statusCode": 2,
+                      "httpCode": 400
+                    }
+                  },
+                  "Moderation": {
+                    "value": {
+                      "message": "Текст этого запроса не прошёл модерацию! Причина: Отклонено модерацией.",
+                      "statusCode": 9,
+                      "httpCode": 400
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/ml-scores": {
+      "post": {
+        "tags": [],
+        "summary": "Создание/сохранение ML скора",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ru.cororo.corasense.model.ml.data.MLScore"
+              },
+              "examples": {
+                "OK": {
+                  "value": {
+                    "message": "ok",
+                    "statusCode": 0,
+                    "httpCode": 200
+                  }
+                }
+              }
+            }
+          },
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "headers": {
+
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ru.cororo.corasense.model.dto.StatusResponse.Ok"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Клиент или рекламодатель не найдены.",
+            "headers": {
+
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ru.cororo.corasense.model.dto.StatusResponse.Error"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/advertisers/{advertiserId}/campaigns": {
+      "get": {
+        "tags": [],
+        "summary": "Получение информации о рекламных кампаниях рекламодателя",
+        "parameters": [
+          {
+            "name": "advertiserId",
+            "in": "path",
+            "description": "ID рекламодателя",
+            "required": true,
+            "deprecated": false,
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "title": "String"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "headers": {
+
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ru.cororo.corasense.model.campaign.data.Campaign"
+                  },
+                  "title": "List\u003CCampaign\u003E"
+                }
+              }
+            }
+          },
+          "404": {
+            "headers": {
+
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ru.cororo.corasense.model.dto.StatusResponse.Error"
+                },
+                "examples": {
+                  "Advertiser not found": {
+                    "value": {
+                      "message": "Рекламодателя с таким ID не существует!",
+                      "statusCode": 4,
+                      "httpCode": 404
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      },
+      "post": {
+        "tags": [],
+        "summary": "Создание рекламной кампании",
+        "parameters": [
+          {
+            "name": "advertiserId",
+            "in": "path",
+            "description": "ID рекламодателя",
+            "required": true,
+            "deprecated": false,
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "title": "String"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ru.cororo.corasense.model.campaign.dto.CampaignCreateRequest"
+              }
+            }
+          },
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "headers": {
+
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ru.cororo.corasense.model.campaign.data.Campaign"
+                }
+              }
+            }
+          },
+          "400": {
+            "headers": {
+
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ru.cororo.corasense.model.dto.StatusResponse.Error"
+                },
+                "examples": {
+                  "Error": {
+                    "value": {
+                      "message": "Формат запроса неверный!",
+                      "statusCode": 2,
+                      "httpCode": 400
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/advertisers/{advertiserId}/campaigns/{campaignId}": {
+      "get": {
+        "tags": [],
+        "summary": "Получение информации о рекламной кампании",
+        "parameters": [
+          {
+            "name": "advertiserId",
+            "in": "path",
+            "description": "ID рекламодателя",
+            "required": true,
+            "deprecated": false,
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "title": "String"
+            }
+          },
+          {
+            "name": "campaignId",
+            "in": "path",
+            "description": "ID кампании",
+            "required": true,
+            "deprecated": false,
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "title": "String"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "headers": {
+
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ru.cororo.corasense.model.campaign.data.Campaign"
+                }
+              }
+            }
+          },
+          "404": {
+            "headers": {
+
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ru.cororo.corasense.model.dto.StatusResponse.Error"
+                },
+                "examples": {
+                  "Advertiser not found": {
+                    "value": {
+                      "message": "Рекламодателя с таким ID не существует!",
+                      "statusCode": 4,
+                      "httpCode": 404
+                    }
+                  },
+                  "Campaign not found": {
+                    "value": {
+                      "message": "Рекламной кампании с таким ID не существует!",
+                      "statusCode": 5,
+                      "httpCode": 404
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      },
+      "put": {
+        "tags": [],
+        "summary": "Обновление информации о рекламной кампании",
+        "parameters": [
+          {
+            "name": "advertiserId",
+            "in": "path",
+            "description": "ID рекламодателя",
+            "required": true,
+            "deprecated": false,
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "title": "String"
+            }
+          },
+          {
+            "name": "campaignId",
+            "in": "path",
+            "description": "ID кампании",
+            "required": true,
+            "deprecated": false,
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "title": "String"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ru.cororo.corasense.model.campaign.dto.CampaignUpdateRequest"
+              }
+            }
+          },
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "headers": {
+
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ru.cororo.corasense.model.campaign.data.Campaign"
+                }
+              }
+            }
+          },
+          "404": {
+            "headers": {
+
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ru.cororo.corasense.model.dto.StatusResponse.Error"
+                },
+                "examples": {
+                  "Advertiser not found": {
+                    "value": {
+                      "message": "Рекламодателя с таким ID не существует!",
+                      "statusCode": 4,
+                      "httpCode": 404
+                    }
+                  },
+                  "Campaign not found": {
+                    "value": {
+                      "message": "Рекламной кампании с таким ID не существует!",
+                      "statusCode": 5,
+                      "httpCode": 404
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      },
+      "delete": {
+        "tags": [],
+        "summary": "Удаление рекламной кампании",
+        "parameters": [
+          {
+            "name": "advertiserId",
+            "in": "path",
+            "description": "ID рекламодателя",
+            "required": true,
+            "deprecated": false,
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "title": "String"
+            }
+          },
+          {
+            "name": "campaignId",
+            "in": "path",
+            "description": "ID кампании",
+            "required": true,
+            "deprecated": false,
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "title": "String"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "headers": {
+
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/ads": {
+      "get": {
+        "tags": [],
+        "summary": "Просмотр рекламы пользователем",
+        "parameters": [
+          {
+            "name": "client_id",
+            "in": "query",
+            "description": "ID клиента",
+            "required": true,
+            "deprecated": false,
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "title": "String"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "headers": {
+
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ru.cororo.corasense.model.campaign.dto.CampaignAd"
+                }
+              }
+            }
+          },
+          "400": {
+            "headers": {
+
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ru.cororo.corasense.model.dto.StatusResponse.Error"
+                },
+                "examples": {
+                  "Bad request": {
+                    "value": {
+                      "message": "Формат запроса неверный!",
+                      "statusCode": 2,
+                      "httpCode": 400
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "headers": {
+
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ru.cororo.corasense.model.dto.StatusResponse.Error"
+                },
+                "examples": {
+                  "Client not found": {
+                    "value": {
+                      "message": "Клиента с таким ID не существует!",
+                      "statusCode": 3,
+                      "httpCode": 404
+                    }
+                  },
+                  "No ads": {
+                    "value": {
+                      "message": "Больше не осталось реклам для показа!",
+                      "statusCode": 10,
+                      "httpCode": 404
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/ads/{adId}/click": {
+      "post": {
+        "tags": [],
+        "summary": "Кликнуть по рекламе",
+        "parameters": [
+          {
+            "name": "adId",
+            "in": "path",
+            "description": "ID рекламы",
+            "required": true,
+            "deprecated": false,
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "title": "String"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ru.cororo.corasense.model.campaign.dto.CampaignClickRequest"
+              }
+            }
+          },
+          "required": false
+        },
+        "responses": {
+          "204": {
+            "headers": {
+
+            }
+          },
+          "404": {
+            "headers": {
+
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ru.cororo.corasense.model.dto.StatusResponse.Error"
+                },
+                "examples": {
+                  "Client not found": {
+                    "value": {
+                      "message": "Рекламной кампании с таким ID не существует!",
+                      "statusCode": 5,
+                      "httpCode": 404
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "headers": {
+
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ru.cororo.corasense.model.dto.StatusResponse.Error"
+                },
+                "examples": {
+                  "Ad forbidden (user must see it first)": {
+                    "value": {
+                      "message": "У вас нет доступа к этой рекламе!",
+                      "statusCode": 6,
+                      "httpCode": 403
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/stats/advertisers/{advertiserId}/campaigns": {
+      "get": {
+        "tags": [],
+        "summary": "Общая статистика рекламодателя",
+        "description": "Возвращает сводную статистику по всем рекламным кампаниям, принадлежащим заданному рекламодателю.",
+        "parameters": [
+          {
+            "name": "advertiserId",
+            "in": "path",
+            "description": "ID рекламодателя",
+            "required": true,
+            "deprecated": false,
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "title": "String"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "headers": {
+
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ru.cororo.corasense.model.action.data.AdActionStats"
+                },
+                "examples": {
+                  "Test stats": {
+                    "value": {
+                      "impressionsCount": 10,
+                      "clicksCount": 10,
+                      "conversion": 100,
+                      "spentImpressions": 20,
+                      "spentClicks": 40,
+                      "spentTotal": 60
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "headers": {
+
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ru.cororo.corasense.model.dto.StatusResponse.Error"
+                },
+                "examples": {
+                  "Advertiser not found": {
+                    "value": {
+                      "message": "Рекламодателя с таким ID не существует!",
+                      "statusCode": 4,
+                      "httpCode": 404
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/stats/advertisers/{advertiserId}/campaigns/daily": {
+      "get": {
+        "tags": [],
+        "summary": "Ежедневная статистика рекламодателя",
+        "description": "Возвращает массив ежедневной сводной статистики по всем рекламным кампаниям заданного рекламодателя.",
+        "parameters": [
+          {
+            "name": "advertiserId",
+            "in": "path",
+            "description": "ID рекламодателя",
+            "required": true,
+            "deprecated": false,
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "title": "String"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "headers": {
+
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ru.cororo.corasense.model.action.data.AdActionStatsDaily"
+                  },
+                  "title": "List\u003CAdActionStatsDaily\u003E"
+                },
+                "examples": {
+                  "Test stats": {
+                    "value": [
+                      {
+                        "impressionsCount": 10,
+                        "clicksCount": 10,
+                        "conversion": 100,
+                        "spentImpressions": 20,
+                        "spentClicks": 40,
+                        "spentTotal": 60,
+                        "date": 1
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "headers": {
+
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ru.cororo.corasense.model.dto.StatusResponse.Error"
+                },
+                "examples": {
+                  "Advertiser not found": {
+                    "value": {
+                      "message": "Рекламодателя с таким ID не существует!",
+                      "statusCode": 4,
+                      "httpCode": 404
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/stats/campaigns/{campaignId}": {
+      "get": {
+        "tags": [],
+        "summary": "Общая статистика рекламной кампании",
+        "description": "Возвращает агрегированную статистику (показы, переходы, затраты и конверсию) для заданной рекламной кампании.",
+        "parameters": [
+          {
+            "name": "campaignId",
+            "in": "path",
+            "description": "ID рекламной кампании",
+            "required": true,
+            "deprecated": false,
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "title": "String"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "headers": {
+
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ru.cororo.corasense.model.action.data.AdActionStats"
+                },
+                "examples": {
+                  "Test stats": {
+                    "value": {
+                      "impressionsCount": 10,
+                      "clicksCount": 10,
+                      "conversion": 100,
+                      "spentImpressions": 20,
+                      "spentClicks": 40,
+                      "spentTotal": 60
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "headers": {
+
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ru.cororo.corasense.model.dto.StatusResponse.Error"
+                },
+                "examples": {
+                  "Campaign not found": {
+                    "value": {
+                      "message": "Рекламной кампании с таким ID не существует!",
+                      "statusCode": 5,
+                      "httpCode": 404
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/stats/campaigns/{campaignId}/daily": {
+      "get": {
+        "tags": [],
+        "summary": "Ежедневная статистика рекламной кампании",
+        "description": "Возвращает массив ежедневной сводной статистики по указанной рекламной кампании.",
+        "parameters": [
+          {
+            "name": "campaignId",
+            "in": "path",
+            "description": "ID рекламной кампании",
+            "required": true,
+            "deprecated": false,
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "title": "String"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "headers": {
+
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ru.cororo.corasense.model.action.data.AdActionStatsDaily"
+                  },
+                  "title": "List\u003CAdActionStatsDaily\u003E"
+                },
+                "examples": {
+                  "Test stats": {
+                    "value": [
+                      {
+                        "impressionsCount": 10,
+                        "clicksCount": 10,
+                        "conversion": 100,
+                        "spentImpressions": 20,
+                        "spentClicks": 40,
+                        "spentTotal": 60,
+                        "date": 1
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "headers": {
+
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ru.cororo.corasense.model.dto.StatusResponse.Error"
+                },
+                "examples": {
+                  "Campaign not found": {
+                    "value": {
+                      "message": "Рекламной кампании с таким ID не существует!",
+                      "statusCode": 5,
+                      "httpCode": 404
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/time/advance": {
+      "post": {
+        "tags": [],
+        "summary": "Изменить время",
+        "description": "Машина времени (inspired by Alexander Shakhov)",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ru.cororo.corasense.model.time.dto.TimeUpdateRequest"
+              },
+              "examples": {
+                "Время: 1 день": {
+                  "value": {
+                    "currentDate": 1
+                  }
+                }
+              }
+            }
+          },
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "headers": {
+
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ru.cororo.corasense.model.time.dto.TimeUpdateRequest"
+                },
+                "examples": {
+                  "Время: 1 день": {
+                    "value": {
+                      "currentDate": 1
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/images": {
+      "post": {
+        "tags": [],
+        "summary": "Загрузить изображение.",
+        "description": "Необходимо отправить файл в единственном поле multipart data. Поддерживаемые типы: .png, .bmp, .jpg, .jpeg, .svg, .webp, .gif",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+
+                }
+              }
+            }
+          },
+          "required": false
+        },
+        "responses": {
+          "201": {
+            "headers": {
+
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ru.cororo.corasense.model.image.Image"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/images/{imageId}": {
+      "get": {
+        "tags": [],
+        "summary": "Скачать изображение",
+        "parameters": [
+          {
+            "name": "download",
+            "in": "query",
+            "description": "Скачивать ли изображение? От этого зависит тип Content-Disposition: attachment (download=true) или inline (download=false). download=false подойдёт для встраивания на сайты.",
+            "required": false,
+            "deprecated": false,
+            "explode": false,
+            "schema": {
+              "type": "boolean",
+              "title": "Boolean"
+            }
+          },
+          {
+            "name": "imageId",
+            "in": "path",
+            "description": "ID изображения",
+            "required": true,
+            "deprecated": false,
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "title": "String"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Изображение существует и успешно получено. Возвращается Content-Disposition (attachment или inline) с filename.",
+            "headers": {
+              "Content-Type: image/*": {
+                "required": false,
+                "deprecated": false,
+                "schema": {
+                  "type": "string",
+                  "title": "String"
+                }
+              }
+            }
+          },
+          "404": {
+            "headers": {
+
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ru.cororo.corasense.model.dto.StatusResponse.Error"
+                },
+                "examples": {
+                  "Image not found": {
+                    "value": {
+                      "message": "Изображение не найдено!",
+                      "statusCode": 7,
+                      "httpCode": 404
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      },
+      "delete": {
+        "tags": [],
+        "summary": "Удалить изображение",
+        "description": "Удаление изображения из БД и хранилища. Убедитесь, что ни в какой кампании это изображение не используется.",
+        "parameters": [
+          {
+            "name": "imageId",
+            "in": "path",
+            "description": "ID изображения",
+            "required": true,
+            "deprecated": false,
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "title": "String"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "headers": {
+
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ru.cororo.corasense.model.dto.StatusResponse.Ok"
+                },
+                "examples": {
+                  "OK": {
+                    "value": {
+                      "message": "ok",
+                      "statusCode": 0,
+                      "httpCode": 200
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "headers": {
+
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ru.cororo.corasense.model.dto.StatusResponse.Error"
+                },
+                "examples": {
+                  "Image not found": {
+                    "value": {
+                      "message": "Изображение не найдено!",
+                      "statusCode": 7,
+                      "httpCode": 404
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/llm/campaign-text": {
+      "post": {
+        "tags": [],
+        "summary": "Генерация текста для кампании при помощи ИИ",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ru.cororo.corasense.model.llm.dto.GenerateCampaignTextRequest"
+              }
+            }
+          },
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "headers": {
+
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ru.cororo.corasense.model.llm.dto.GenerateCampaignTextResponse"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/blocked-words": {
+      "get": {
+        "tags": [],
+        "summary": "Получить плохие слова, используемые в приложении для режима модерации BLACKLIST.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "headers": {
+
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ru.cororo.corasense.model.moderation.dto.BlockedWordsRequest"
+                },
+                "examples": {
+                  "OK": {
+                    "value": {
+                      "words": [
+                        "п*тон"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      },
+      "post": {
+        "tags": [],
+        "summary": "Добавить плохие слова в приложение для режима модерации BLACKLIST.",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ru.cororo.corasense.model.moderation.dto.BlockedWordsRequest"
+              },
+              "examples": {
+                "OK": {
+                  "value": {
+                    "words": [
+                      "п*тон"
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "headers": {
+
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ru.cororo.corasense.model.dto.StatusResponse.Ok"
+                },
+                "examples": {
+                  "OK": {
+                    "value": {
+                      "message": "ok",
+                      "statusCode": 0,
+                      "httpCode": 200
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      },
+      "delete": {
+        "tags": [],
+        "summary": "Удалить плохие слова из приложения для режима модерации BLACKLIST.",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ru.cororo.corasense.model.moderation.dto.BlockedWordsRequest"
+              },
+              "examples": {
+                "OK": {
+                  "value": {
+                    "words": [
+                      "п*тон"
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "headers": {
+
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ru.cororo.corasense.model.dto.StatusResponse.Ok"
+                },
+                "examples": {
+                  "OK": {
+                    "value": {
+                      "message": "ok",
+                      "statusCode": 0,
+                      "httpCode": 200
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/moderation/enable": {
+      "post": {
+        "tags": [],
+        "summary": "Включить модерацию",
+        "description": "Включить модерацию в приложении. Это состояние не сохраняется и после перезапуска приложения значение будет взято из конфигурации.",
+        "parameters": [],
+        "responses": {
+
+        },
+        "deprecated": false
+      }
+    },
+    "/moderation/disable": {
+      "post": {
+        "tags": [],
+        "summary": "Выключить модерацию",
+        "description": "Выключить модерацию в приложении. Это состояние не сохраняется и после перезапуска приложения значение будет взято из конфигурации.",
+        "parameters": [],
+        "responses": {
+
+        },
+        "deprecated": false
+      }
+    },
+    "/moderation/mode": {
+      "post": {
+        "tags": [],
+        "summary": "Изменить режим модерации",
+        "description": "Изменить режим модерации. Поддерживается смена режима отдельно для scope. Поддерживаемые scope: AD_TITLE, AD_TEXT, ADVERTISER_NAME, CLIENT_LOGIN. Поддерживаемые mode: BLACKLIST, LLM",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ru.cororo.corasense.model.moderation.dto.ModerationModeRequest"
+              }
+            }
+          },
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "headers": {
+
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ru.cororo.corasense.model.dto.StatusResponse.Ok"
+                },
+                "examples": {
+                  "OK": {
+                    "value": {
+                      "message": "ok",
+                      "statusCode": 0,
+                      "httpCode": 200
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/metrics": {
+      "get": {
+        "tags": [],
+        "summary": "Метрика для Prometheus",
+        "parameters": [],
+        "responses": {
+
+        },
+        "deprecated": false
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ru.cororo.corasense.model.client.data.Client.Gender": {
+        "type": "string",
+        "enum": [
+          "MALE",
+          "FEMALE"
+        ],
+        "title": "Gender"
+      },
+      "ru.cororo.corasense.model.client.data.Client": {
+        "type": "object",
+        "properties": {
+          "age": {
+            "type": "integer",
+            "format": "int32",
+            "title": "Int"
+          },
+          "gender": {
+            "$ref": "#/components/schemas/ru.cororo.corasense.model.client.data.Client.Gender"
+          },
+          "id": {
+            "type": "string",
+            "title": "String"
+          },
+          "location": {
+            "type": "string",
+            "title": "String"
+          },
+          "login": {
+            "type": "string",
+            "title": "String"
+          }
+        },
+        "required": [
+          "age",
+          "gender",
+          "id",
+          "location",
+          "login"
+        ],
+        "title": "Client"
+      },
+      "ru.cororo.corasense.model.dto.StatusResponse.Error": {
+        "type": "object",
+        "properties": {
+          "httpCode": {
+            "type": "integer",
+            "format": "int32",
+            "title": "Int"
+          },
+          "message": {
+            "type": "string",
+            "title": "String"
+          },
+          "statusCode": {
+            "type": "integer",
+            "format": "int32",
+            "title": "Int"
+          }
+        },
+        "required": [
+          "httpCode",
+          "message",
+          "statusCode"
+        ],
+        "title": "Error"
+      },
+      "ru.cororo.corasense.model.advertiser.data.Advertiser": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "String"
+          },
+          "name": {
+            "type": "string",
+            "title": "String"
+          }
+        },
+        "required": [
+          "id",
+          "name"
+        ],
+        "title": "Advertiser"
+      },
+      "ru.cororo.corasense.model.ml.data.MLScore": {
+        "type": "object",
+        "properties": {
+          "advertiserId": {
+            "type": "string",
+            "title": "String"
+          },
+          "clientId": {
+            "type": "string",
+            "title": "String"
+          },
+          "score": {
+            "type": "integer",
+            "format": "int32",
+            "title": "Int"
+          }
+        },
+        "required": [
+          "advertiserId",
+          "clientId",
+          "score"
+        ],
+        "title": "MLScore"
+      },
+      "ru.cororo.corasense.model.dto.StatusResponse.Ok": {
+        "type": "object",
+        "properties": {
+          "httpCode": {
+            "type": "integer",
+            "format": "int32",
+            "title": "Int"
+          },
+          "message": {
+            "type": "string",
+            "title": "String"
+          },
+          "statusCode": {
+            "type": "integer",
+            "format": "int32",
+            "title": "Int"
+          }
+        },
+        "required": [
+          "httpCode",
+          "message",
+          "statusCode"
+        ],
+        "title": "Ok"
+      },
+      "java.util.UUID": {
+        "type": "object",
+        "properties": {
+
+        },
+        "title": "UUID"
+      },
+      "ru.cororo.corasense.model.campaign.dto.CampaignCreateRequest.Targeting": {
+        "type": "object",
+        "properties": {
+          "ageFrom": {
+            "type": [
+              "null",
+              "integer"
+            ],
+            "format": "int32",
+            "title": "Int"
+          },
+          "ageTo": {
+            "type": [
+              "null",
+              "integer"
+            ],
+            "format": "int32",
+            "title": "Int"
+          },
+          "gender": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/ru.cororo.corasense.model.campaign.data.Campaign.Targeting.Gender"
+              }
+            ]
+          },
+          "location": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "title": "String"
+          }
+        },
+        "title": "Targeting"
+      },
+      "ru.cororo.corasense.model.campaign.data.Campaign.Targeting.Gender": {
+        "type": "string",
+        "enum": [
+          "ALL",
+          "FEMALE",
+          "MALE"
+        ],
+        "title": "Gender"
+      },
+      "ru.cororo.corasense.model.campaign.dto.CampaignCreateRequest": {
+        "type": "object",
+        "properties": {
+          "adText": {
+            "type": "string",
+            "title": "String"
+          },
+          "adTitle": {
+            "type": "string",
+            "title": "String"
+          },
+          "clicksLimit": {
+            "type": "integer",
+            "format": "int32",
+            "title": "Int"
+          },
+          "costPerClick": {
+            "type": "number",
+            "format": "double",
+            "title": "Double"
+          },
+          "costPerImpression": {
+            "type": "number",
+            "format": "double",
+            "title": "Double"
+          },
+          "endDate": {
+            "type": "integer",
+            "format": "int32",
+            "title": "Int"
+          },
+          "imageId": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/java.util.UUID"
+              }
+            ]
+          },
+          "impressionsLimit": {
+            "type": "integer",
+            "format": "int32",
+            "title": "Int"
+          },
+          "startDate": {
+            "type": "integer",
+            "format": "int32",
+            "title": "Int"
+          },
+          "targeting": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/ru.cororo.corasense.model.campaign.dto.CampaignCreateRequest.Targeting"
+              }
+            ]
+          }
+        },
+        "required": [
+          "adText",
+          "adTitle",
+          "clicksLimit",
+          "costPerClick",
+          "costPerImpression",
+          "endDate",
+          "impressionsLimit",
+          "startDate"
+        ],
+        "title": "CampaignCreateRequest"
+      },
+      "ru.cororo.corasense.model.campaign.data.Campaign.Targeting": {
+        "type": "object",
+        "properties": {
+          "ageFrom": {
+            "type": [
+              "null",
+              "integer"
+            ],
+            "format": "int32",
+            "title": "Int"
+          },
+          "ageTo": {
+            "type": [
+              "null",
+              "integer"
+            ],
+            "format": "int32",
+            "title": "Int"
+          },
+          "gender": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/ru.cororo.corasense.model.campaign.data.Campaign.Targeting.Gender"
+              }
+            ]
+          },
+          "location": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "title": "String"
+          }
+        },
+        "title": "Targeting"
+      },
+      "ru.cororo.corasense.model.campaign.data.Campaign": {
+        "type": "object",
+        "properties": {
+          "adText": {
+            "type": "string",
+            "title": "String"
+          },
+          "adTitle": {
+            "type": "string",
+            "title": "String"
+          },
+          "advertiserId": {
+            "type": "string",
+            "title": "String"
+          },
+          "clicksLimit": {
+            "type": "integer",
+            "format": "int32",
+            "title": "Int"
+          },
+          "costPerClick": {
+            "type": "number",
+            "format": "double",
+            "title": "Double"
+          },
+          "costPerImpression": {
+            "type": "number",
+            "format": "double",
+            "title": "Double"
+          },
+          "endDate": {
+            "type": "integer",
+            "format": "int32",
+            "title": "Int"
+          },
+          "id": {
+            "type": "string",
+            "title": "String"
+          },
+          "imageId": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/java.util.UUID"
+              }
+            ]
+          },
+          "impressionsLimit": {
+            "type": "integer",
+            "format": "int32",
+            "title": "Int"
+          },
+          "startDate": {
+            "type": "integer",
+            "format": "int32",
+            "title": "Int"
+          },
+          "targeting": {
+            "$ref": "#/components/schemas/ru.cororo.corasense.model.campaign.data.Campaign.Targeting"
+          }
+        },
+        "required": [
+          "adText",
+          "adTitle",
+          "advertiserId",
+          "clicksLimit",
+          "costPerClick",
+          "costPerImpression",
+          "endDate",
+          "id",
+          "impressionsLimit",
+          "startDate",
+          "targeting"
+        ],
+        "title": "Campaign"
+      },
+      "ru.cororo.corasense.model.campaign.dto.CampaignUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "adText": {
+            "type": "string",
+            "title": "String"
+          },
+          "adTitle": {
+            "type": "string",
+            "title": "String"
+          },
+          "clicksLimit": {
+            "type": "integer",
+            "format": "int32",
+            "title": "Int"
+          },
+          "costPerClick": {
+            "type": "number",
+            "format": "double",
+            "title": "Double"
+          },
+          "costPerImpression": {
+            "type": "number",
+            "format": "double",
+            "title": "Double"
+          },
+          "endDate": {
+            "type": "integer",
+            "format": "int32",
+            "title": "Int"
+          },
+          "imageId": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/java.util.UUID"
+              }
+            ]
+          },
+          "impressionsLimit": {
+            "type": "integer",
+            "format": "int32",
+            "title": "Int"
+          },
+          "startDate": {
+            "type": "integer",
+            "format": "int32",
+            "title": "Int"
+          },
+          "targeting": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/ru.cororo.corasense.model.campaign.dto.CampaignCreateRequest.Targeting"
+              }
+            ]
+          }
+        },
+        "required": [
+          "adText",
+          "adTitle",
+          "clicksLimit",
+          "costPerClick",
+          "costPerImpression",
+          "endDate",
+          "impressionsLimit",
+          "startDate"
+        ],
+        "title": "CampaignUpdateRequest"
+      },
+      "ru.cororo.corasense.model.campaign.dto.CampaignAd": {
+        "type": "object",
+        "properties": {
+          "adId": {
+            "type": "string",
+            "title": "String"
+          },
+          "adText": {
+            "type": "string",
+            "title": "String"
+          },
+          "adTitle": {
+            "type": "string",
+            "title": "String"
+          },
+          "advertiserId": {
+            "type": "string",
+            "title": "String"
+          },
+          "imageId": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/java.util.UUID"
+              }
+            ]
+          }
+        },
+        "required": [
+          "adId",
+          "adText",
+          "adTitle",
+          "advertiserId"
+        ],
+        "title": "CampaignAd"
+      },
+      "ru.cororo.corasense.model.campaign.dto.CampaignClickRequest": {
+        "type": "object",
+        "properties": {
+          "clientId": {
+            "type": "string",
+            "title": "String"
+          }
+        },
+        "required": [
+          "clientId"
+        ],
+        "title": "CampaignClickRequest"
+      },
+      "ru.cororo.corasense.model.action.data.AdActionStats": {
+        "type": "object",
+        "properties": {
+          "clicksCount": {
+            "type": "integer",
+            "format": "int64",
+            "title": "Long"
+          },
+          "conversion": {
+            "type": "number",
+            "format": "double",
+            "title": "Double"
+          },
+          "impressionsCount": {
+            "type": "integer",
+            "format": "int64",
+            "title": "Long"
+          },
+          "spentClicks": {
+            "type": "number",
+            "format": "double",
+            "title": "Double"
+          },
+          "spentImpressions": {
+            "type": "number",
+            "format": "double",
+            "title": "Double"
+          },
+          "spentTotal": {
+            "type": "number",
+            "format": "double",
+            "title": "Double"
+          }
+        },
+        "required": [
+          "clicksCount",
+          "conversion",
+          "impressionsCount",
+          "spentClicks",
+          "spentImpressions",
+          "spentTotal"
+        ],
+        "title": "AdActionStats"
+      },
+      "ru.cororo.corasense.model.action.data.AdActionStatsDaily": {
+        "type": "object",
+        "properties": {
+          "clicksCount": {
+            "type": "integer",
+            "format": "int64",
+            "title": "Long"
+          },
+          "conversion": {
+            "type": "number",
+            "format": "double",
+            "title": "Double"
+          },
+          "date": {
+            "type": "integer",
+            "format": "int32",
+            "title": "Int"
+          },
+          "impressionsCount": {
+            "type": "integer",
+            "format": "int64",
+            "title": "Long"
+          },
+          "spentClicks": {
+            "type": "number",
+            "format": "double",
+            "title": "Double"
+          },
+          "spentImpressions": {
+            "type": "number",
+            "format": "double",
+            "title": "Double"
+          },
+          "spentTotal": {
+            "type": "number",
+            "format": "double",
+            "title": "Double"
+          }
+        },
+        "required": [
+          "clicksCount",
+          "conversion",
+          "date",
+          "impressionsCount",
+          "spentClicks",
+          "spentImpressions",
+          "spentTotal"
+        ],
+        "title": "AdActionStatsDaily"
+      },
+      "ru.cororo.corasense.model.time.dto.TimeUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "currentDate": {
+            "type": "integer",
+            "format": "int32",
+            "title": "Int"
+          }
+        },
+        "required": [
+          "currentDate"
+        ],
+        "title": "TimeUpdateRequest"
+      },
+      "ru.cororo.corasense.model.image.Image": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "String"
+          },
+          "name": {
+            "type": "string",
+            "title": "String"
+          }
+        },
+        "required": [
+          "id",
+          "name"
+        ],
+        "title": "Image"
+      },
+      "ru.cororo.corasense.model.llm.dto.GenerateCampaignTextRequest": {
+        "type": "object",
+        "properties": {
+          "advertiserId": {
+            "type": "string",
+            "title": "String"
+          },
+          "campaignTitle": {
+            "type": "string",
+            "title": "String"
+          }
+        },
+        "required": [
+          "advertiserId",
+          "campaignTitle"
+        ],
+        "title": "GenerateCampaignTextRequest"
+      },
+      "ru.cororo.corasense.model.llm.dto.GenerateCampaignTextResponse": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string",
+            "title": "String"
+          }
+        },
+        "required": [
+          "text"
+        ],
+        "title": "GenerateCampaignTextResponse"
+      },
+      "ru.cororo.corasense.model.moderation.dto.BlockedWordsRequest": {
+        "type": "object",
+        "properties": {
+          "words": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "title": "String"
+            },
+            "title": "Collection\u003CString\u003E"
+          }
+        },
+        "required": [
+          "words"
+        ],
+        "title": "BlockedWordsRequest"
+      },
+      "ru.cororo.corasense.model.moderation.dto.ModerationModeRequest": {
+        "type": "object",
+        "properties": {
+          "mode": {
+            "type": "string",
+            "title": "String"
+          },
+          "scope": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "title": "String"
+          }
+        },
+        "required": [
+          "mode"
+        ],
+        "title": "ModerationModeRequest"
+      }
+    },
+    "examples": {
+    }
+  }
+}
