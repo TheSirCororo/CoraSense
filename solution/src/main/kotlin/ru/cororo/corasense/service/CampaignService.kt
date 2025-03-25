@@ -1,7 +1,5 @@
 package ru.cororo.corasense.service
 
-import kotlinx.coroutines.sync.Mutex
-import kotlinx.coroutines.sync.withLock
 import ru.cororo.corasense.model.campaign.data.Campaign
 import ru.cororo.corasense.model.campaign.dto.CampaignCreateRequest
 import ru.cororo.corasense.model.client.data.Client
@@ -15,7 +13,6 @@ class CampaignService(
     private val currentDayService: CurrentDayService,
     private val micrometerService: MicrometerService
 ) {
-    private val mutex = Mutex()
 
     suspend fun createCampaign(advertiserId: UUID, request: CampaignCreateRequest) =
         campaignRepo.createCampaign(advertiserId, request)
@@ -38,9 +35,8 @@ class CampaignService(
         micrometerService.markToUpdateAdvertiser(campaign.advertiserId)
     }
 
-    suspend fun getRelevantCampaignForClient(client: Client) = mutex.withLock {
+    suspend fun getRelevantCampaignForClient(client: Client) =
         campaignRepo.getRelevantCampaignForClient(client, currentDayService.getCurrentDay())
-    }
 
     suspend fun getAllCampaigns() = campaignRepo.getAll()
 }

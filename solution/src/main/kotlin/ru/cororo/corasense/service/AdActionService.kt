@@ -1,7 +1,5 @@
 package ru.cororo.corasense.service
 
-import kotlinx.coroutines.sync.Mutex
-import kotlinx.coroutines.sync.withLock
 import ru.cororo.corasense.model.action.data.AdAction
 import ru.cororo.corasense.model.action.data.AdActionStats
 import ru.cororo.corasense.model.action.data.AdActionStatsDaily
@@ -13,7 +11,6 @@ class AdActionService(
     private val currentDayService: CurrentDayService,
     private val micrometerService: MicrometerService
 ) {
-    private val mutex = Mutex()
 
     suspend fun getTotalCampaignStats(campaignId: UUID) =
         adActionRepo.getTotalCampaignStats(campaignId)
@@ -36,7 +33,7 @@ class AdActionService(
         }
     }
 
-    suspend fun saveAction(action: AdAction) = mutex.withLock {
+    suspend fun saveAction(action: AdAction) {
         adActionRepo.save(action).also {
             micrometerService.markToUpdateCampaign(action.campaignId)
             micrometerService.markToUpdateAdvertiser(action.advertiserId)
