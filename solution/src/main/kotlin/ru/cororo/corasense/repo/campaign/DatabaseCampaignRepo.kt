@@ -132,6 +132,7 @@ object DatabaseCampaignRepo : CampaignRepo, KoinComponent {
         val impressionsCountSubquery = AdActionTable.select(count, AdActionTable.campaignId)
             .where { AdActionTable.type eq AdAction.Type.IMPRESSION }
             .groupBy(AdActionTable.campaignId, AdActionTable.id)
+            .withDistinctOn(AdActionTable.campaignId)
             .alias("impressions_count_query")
         val impressionsCount = Expression.build {
             coalesce(impressionsCountSubquery[count], longLiteral(0))
@@ -140,6 +141,7 @@ object DatabaseCampaignRepo : CampaignRepo, KoinComponent {
         val clicksCountSubquery = AdActionTable.select(count, AdActionTable.campaignId)
             .where { AdActionTable.type eq AdAction.Type.CLICK }
             .groupBy(AdActionTable.campaignId, AdActionTable.id)
+            .withDistinctOn(AdActionTable.campaignId)
             .alias("clicks_count_query")
         val clicksCount = Expression.build {
             coalesce(clicksCountSubquery[count], longLiteral(0))
