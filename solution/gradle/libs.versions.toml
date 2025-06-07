@@ -1,0 +1,133 @@
+
+[versions]
+# Kotlin
+kotlin = "2.1.21"
+kotlin-serialization = "1.8.1"
+
+# Ktor
+ktor = "3.1.3"
+
+# Koin
+koin = "4.0.3"
+
+# Database
+postgres = "42.7.6"
+exposed = "1.0.0-beta-2"
+hikaricp = "6.3.0"
+h2 = "2.3.232"
+
+# Logging
+logback = "1.5.18"
+
+# Swagger
+ktor-swagger-ui = "5.0.2"
+schema-kenerator = "2.1.2"
+
+# AWS
+aws-sdk-bom = "2.31.59"
+
+# Validation
+konform = "0.11.1"
+
+# Caching
+aedile = "2.1.2"
+
+# Metrics
+micrometer = "1.15.0"
+
+# Testing
+kotest = "6.0.0.M4"
+kotest-assertions-ktor = "2.0.0"
+kotest-extensions-testcontainers = "2.0.2"
+testcontainers-postgresql = "1.21.1"
+mockk = "1.13.16"
+
+# Plugins
+ksp = "2.1.21-2.0.1"
+telegram-bot = "8.1.0"
+
+[libraries]
+# Ktor - Server
+ktor-server-core = { module = "io.ktor:ktor-server-core-jvm", version.ref = "ktor" }
+ktor-serialization = { module = "io.ktor:ktor-serialization-kotlinx-json-jvm", version.ref = "ktor" }
+ktor-server-content-negotiation = { module = "io.ktor:ktor-server-content-negotiation-jvm", version.ref = "ktor" }
+ktor-server-netty = { module = "io.ktor:ktor-server-netty-jvm", version.ref = "ktor" }
+ktor-server-status-pages = { module = "io.ktor:ktor-server-status-pages", version.ref = "ktor" }
+ktor-server-cors = { module = "io.ktor:ktor-server-cors", version.ref = "ktor" }
+ktor-server-resources = { module = "io.ktor:ktor-server-resources", version.ref = "ktor" }
+ktor-server-request-validation = { module = "io.ktor:ktor-server-request-validation", version.ref = "ktor" }
+ktor-server-metrics-micrometer = { module = "io.ktor:ktor-server-metrics-micrometer", version.ref = "ktor" }
+
+# Ktor - Client
+ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
+ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
+ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
+
+# Swagger
+ktor-swagger-ui = { module = "io.github.smiley4:ktor-swagger-ui", version.ref = "ktor-swagger-ui" }
+ktor-openapi = { module = "io.github.smiley4:ktor-openapi", version.ref = "ktor-swagger-ui"}
+schema-kenerator-reflection = { module = "io.github.smiley4:schema-kenerator-reflection", version.ref = "schema-kenerator" }
+schema-kenerator-core = { module = "io.github.smiley4:schema-kenerator-core", version.ref = "schema-kenerator" }
+schema-kenerator-jsonschema = { module = "io.github.smiley4:schema-kenerator-jsonschema", version.ref = "schema-kenerator" }
+schema-kenerator-swagger = { module = "io.github.smiley4:schema-kenerator-swagger", version.ref = "schema-kenerator" }
+
+# Database
+postgres = { module = "org.postgresql:postgresql", version.ref = "postgres" }
+exposed-core = { module = "org.jetbrains.exposed:exposed-core", version.ref = "exposed" }
+exposed-jdbc = { module = "org.jetbrains.exposed:exposed-jdbc", version.ref = "exposed" }
+exposed-json = { module = "org.jetbrains.exposed:exposed-json", version.ref = "exposed" }
+hikaricp = { module = "com.zaxxer:HikariCP", version.ref = "hikaricp" }
+
+# Koin
+koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
+koin-ktor = { module = "io.insert-koin:koin-ktor", version.ref = "koin" }
+koin-logger-slf4j = { module = "io.insert-koin:koin-logger-slf4j", version.ref = "koin" }
+
+# Logging
+logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
+
+# Validation
+konform = { module = "io.konform:konform", version.ref = "konform" }
+
+# Caching
+aedile-core = { module = "com.sksamuel.aedile:aedile-core", version.ref = "aedile" }
+
+# AWS
+aws-sdk-bom = { module = "software.amazon.awssdk:bom", version.ref = "aws-sdk-bom" }
+aws-s3 = { module = "software.amazon.awssdk:s3" }
+aws-sso = { module = "software.amazon.awssdk:sso" }
+aws-ssooidc = { module = "software.amazon.awssdk:ssooidc" }
+aws-apache-client = { module = "software.amazon.awssdk:apache-client" }
+
+# Metrics
+micrometer-prometheus = { module = "io.micrometer:micrometer-registry-prometheus", version.ref = "micrometer" }
+
+# Testing
+kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test" }
+ktor-server-test-host = { module = "io.ktor:ktor-server-test-host", version.ref = "ktor" }
+ktor-client-mock = { module = "io.ktor:ktor-client-mock", version.ref = "ktor" }
+kotest-runner-junit5 = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
+kotest-assertions-core = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
+kotest-property = { module = "io.kotest:kotest-property", version.ref = "kotest" }
+kotest-assertions-ktor = { module = "io.kotest.extensions:kotest-assertions-ktor", version.ref = "kotest-assertions-ktor" }
+kotest-extensions-testcontainers = { module = "io.kotest.extensions:kotest-extensions-testcontainers", version.ref = "kotest-extensions-testcontainers" }
+h2 = { module = "com.h2database:h2", version.ref = "h2" }
+testcontainers-postgresql = { module = "org.testcontainers:postgresql", version.ref = "testcontainers-postgresql" }
+koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin" }
+mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
+
+[bundles]
+ktor-client = ["ktor-client-core", "ktor-client-cio", "ktor-client-content-negotiation"]
+ktor-server = ["ktor-server-core", "ktor-server-content-negotiation", "ktor-server-cors", "ktor-server-metrics-micrometer", "ktor-server-netty", "ktor-server-request-validation", "ktor-server-resources", "ktor-server-status-pages"]
+swagger = ["ktor-swagger-ui", "schema-kenerator-core", "schema-kenerator-jsonschema", "schema-kenerator-reflection", "schema-kenerator-swagger", "ktor-openapi"]
+aws = ["aws-s3", "aws-sso", "aws-ssooidc", "aws-apache-client"]
+koin = ["koin-core", "koin-ktor", "koin-logger-slf4j"]
+database = ["exposed-core", "exposed-jdbc", "exposed-json", "hikaricp", "postgres"]
+test-server = ["kotlin-test", "ktor-server-test-host", "ktor-client-content-negotiation", "ktor-client-mock", "kotest-runner-junit5", "kotest-assertions-core", "kotest-property", "kotest-assertions-ktor", "kotest-extensions-testcontainers", "h2", "postgres", "koin-test", "mockk", "testcontainers-postgresql"]
+
+[plugins]
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+ktor = { id = "io.ktor.plugin", version.ref = "ktor" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+telegram-bot = { id = "eu.vendeli.telegram-bot", version.ref = "telegram-bot" }
