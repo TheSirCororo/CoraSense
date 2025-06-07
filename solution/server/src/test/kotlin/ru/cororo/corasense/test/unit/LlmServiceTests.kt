@@ -11,8 +11,8 @@ import io.ktor.server.config.*
 import io.ktor.server.testing.*
 import io.ktor.test.dispatcher.*
 import kotlinx.serialization.json.Json
-import ru.cororo.corasense.model.moderation.data.ModerationVerdict
-import ru.cororo.corasense.service.LlmService
+import ru.cororo.corasense.shared.model.moderation.ModerationVerdict
+import ru.cororo.corasense.service.LlmServiceImpl
 
 class LlmServiceTests : StringSpec({
     val json = Json
@@ -26,10 +26,10 @@ class LlmServiceTests : StringSpec({
             }
 
             application {
-                val mockClient = mockHttpClient(json.encodeToString(LlmService.GroqResponse(listOf(LlmService.GroqResponse.Choice(
-                    LlmService.GroqRequest.Message("user", "Привет!")
+                val mockClient = mockHttpClient(json.encodeToString(LlmServiceImpl.GroqResponse(listOf(LlmServiceImpl.GroqResponse.Choice(
+                    LlmServiceImpl.GroqRequest.Message("user", "Привет!")
                 )))))
-                val llmService = LlmService(this, mockClient)
+                val llmService = LlmServiceImpl(this, mockClient)
                 testSuspend {
                     llmService.init()
                     llmService.isActive() shouldBe true
@@ -47,9 +47,9 @@ class LlmServiceTests : StringSpec({
             }
 
             application {
-                val mockClient = mockHttpClient(json.encodeToString(LlmService.GroqResponse(listOf(LlmService.GroqResponse.Choice(
-                    LlmService.GroqRequest.Message("user", """{"reason": "test reason", "allowed": false}"""))))))
-                val llmService = LlmService(this, mockClient)
+                val mockClient = mockHttpClient(json.encodeToString(LlmServiceImpl.GroqResponse(listOf(LlmServiceImpl.GroqResponse.Choice(
+                    LlmServiceImpl.GroqRequest.Message("user", """{"reason": "test reason", "allowed": false}"""))))))
+                val llmService = LlmServiceImpl(this, mockClient)
 
                 testSuspend {
                     val verdict = llmService.moderateText("some text")
@@ -68,9 +68,9 @@ class LlmServiceTests : StringSpec({
             }
 
             application {
-                val mockClient = mockHttpClient(json.encodeToString(LlmService.GroqResponse(listOf(LlmService.GroqResponse.Choice(
-                    LlmService.GroqRequest.Message("user", """{"text": "Awesome campaign text"}"""))))))
-                val llmService = LlmService(this, mockClient)
+                val mockClient = mockHttpClient(json.encodeToString(LlmServiceImpl.GroqResponse(listOf(LlmServiceImpl.GroqResponse.Choice(
+                    LlmServiceImpl.GroqRequest.Message("user", """{"text": "Awesome campaign text"}"""))))))
+                val llmService = LlmServiceImpl(this, mockClient)
 
                 testSuspend {
                     val text = llmService.generateCampaignText("Super Sale", "BestAds")

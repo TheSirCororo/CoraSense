@@ -7,9 +7,9 @@ import io.ktor.server.testing.*
 import io.ktor.test.dispatcher.*
 import io.mockk.*
 import kotlinx.io.files.FileNotFoundException
-import ru.cororo.corasense.model.image.Image
+import ru.cororo.corasense.shared.model.image.Image
 import ru.cororo.corasense.repo.image.ImageRepo
-import ru.cororo.corasense.service.ImageService
+import ru.cororo.corasense.service.ImageServiceImpl
 import ru.cororo.corasense.storage.FileImageStorageProvider
 import ru.cororo.corasense.storage.ImageStorageProvider
 import ru.cororo.corasense.storage.S3ImageStorageProvider
@@ -29,7 +29,7 @@ class ImageServiceTests : StringSpec({
         clearAllMocks()
     }
 
-    fun runWithService(storageType: String, storage: ImageStorageProvider, block: ImageService.() -> Unit) {
+    fun runWithService(storageType: String, storage: ImageStorageProvider, block: ImageServiceImpl.() -> Unit) {
         testApplication {
             environment {
                 config = MapApplicationConfig(
@@ -43,7 +43,7 @@ class ImageServiceTests : StringSpec({
             }
 
             application {
-                ImageService(mockRepo, this, storage).block()
+                ImageServiceImpl(mockRepo, this, storage).block()
             }
         }
     }
@@ -53,7 +53,7 @@ class ImageServiceTests : StringSpec({
 
         runWithService("FILE", mockFileStorage) {
             testSuspend {
-                saveImage(testId, testImageName)
+                saveImageData(testId, testImageName)
                 coVerify { mockRepo.createNewImage(testId, testImageName) }
             }
         }
@@ -64,7 +64,7 @@ class ImageServiceTests : StringSpec({
 
         runWithService("FILE", mockFileStorage) {
             testSuspend {
-                val imageName = getImage(testId)
+                val imageName = getImageData(testId)
                 imageName shouldBe testImage
                 coVerify { mockRepo.get(testId) }
             }

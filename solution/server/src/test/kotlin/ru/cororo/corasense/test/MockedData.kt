@@ -1,9 +1,9 @@
 package ru.cororo.corasense.test
 
-import ru.cororo.corasense.model.advertiser.data.Advertiser
-import ru.cororo.corasense.model.campaign.data.Campaign
-import ru.cororo.corasense.model.campaign.dto.CampaignCreateRequest
-import ru.cororo.corasense.model.client.data.Client
+import ru.cororo.corasense.shared.model.advertiser.Advertiser
+import ru.cororo.corasense.shared.model.campaign.Campaign
+import ru.cororo.corasense.shared.model.campaign.CampaignCreateData
+import ru.cororo.corasense.shared.model.client.Client
 import java.util.UUID
 
 val mockedClients = listOf(
@@ -53,7 +53,7 @@ val mockedAdvertisers = listOf(
 ).associateBy { it.id }
 
 val testCampaignRequests = listOf(
-    CampaignCreateRequest(
+    CampaignCreateData(
         100000,
         5000,
         0.02,
@@ -62,14 +62,14 @@ val testCampaignRequests = listOf(
         "Join thousands of successful businesses with TechCorp marketing solutions.",
         5,
         30,
-        targeting = CampaignCreateRequest.Targeting(
+        targeting = CampaignCreateData.Targeting(
             Campaign.Targeting.Gender.ALL,
             25,
             50,
             "New York"
         )
     ),
-    CampaignCreateRequest(
+    CampaignCreateData(
         50000,
         2000,
         0.03,
@@ -78,14 +78,14 @@ val testCampaignRequests = listOf(
         "Maximize your reach with our cutting-edge advertising technology.",
         3,
         25,
-        targeting = CampaignCreateRequest.Targeting(
+        targeting = CampaignCreateData.Targeting(
             Campaign.Targeting.Gender.FEMALE,
             18,
             35,
             "Los Angeles"
         )
     ),
-    CampaignCreateRequest(
+    CampaignCreateData(
         75000,
         3000,
         0.025,
@@ -94,14 +94,14 @@ val testCampaignRequests = listOf(
         "Take your brand to the next level with MarketBoost advertising.",
         2,
         20,
-        targeting = CampaignCreateRequest.Targeting(
+        targeting = CampaignCreateData.Targeting(
             Campaign.Targeting.Gender.MALE,
             30,
             60,
             "Chicago"
         )
     ),
-    CampaignCreateRequest(
+    CampaignCreateData(
         120000,
         7000,
         0.018,
@@ -110,14 +110,14 @@ val testCampaignRequests = listOf(
         "Expand your audience with hyper-targeted digital advertising.",
         1,
         15,
-        targeting = CampaignCreateRequest.Targeting(
+        targeting = CampaignCreateData.Targeting(
             Campaign.Targeting.Gender.ALL,
             20,
             45,
             "Houston"
         )
     ),
-    CampaignCreateRequest(
+    CampaignCreateData(
         90000,
         4000,
         0.022,
@@ -126,7 +126,7 @@ val testCampaignRequests = listOf(
         "Turn views into revenue with our AI-powered ad placements.",
         4,
         28,
-        targeting = CampaignCreateRequest.Targeting(
+        targeting = CampaignCreateData.Targeting(
             Campaign.Targeting.Gender.ALL,
             22,
             50,
@@ -183,7 +183,7 @@ val actionClients = listOf(
 )
 
 val actionCampaignRequests = listOf(
-    CampaignCreateRequest(
+    CampaignCreateData(
         1000,
         1000,
         1.0,
@@ -192,9 +192,9 @@ val actionCampaignRequests = listOf(
         "Крутая реклама 1",
         1,
         10,
-        targeting = CampaignCreateRequest.Targeting()
+        targeting = CampaignCreateData.Targeting()
     ),
-    CampaignCreateRequest(
+    CampaignCreateData(
         1000,
         1000,
         10.0,
@@ -203,11 +203,11 @@ val actionCampaignRequests = listOf(
         "Крутая реклама 2",
         1,
         10,
-        targeting = CampaignCreateRequest.Targeting(
+        targeting = CampaignCreateData.Targeting(
             gender = Campaign.Targeting.Gender.MALE
         )
     ),
-    CampaignCreateRequest(
+    CampaignCreateData(
         1000,
         1000,
         10.0,
@@ -216,11 +216,11 @@ val actionCampaignRequests = listOf(
         "Крутая реклама 3",
         1,
         10,
-        targeting = CampaignCreateRequest.Targeting(
+        targeting = CampaignCreateData.Targeting(
             gender = Campaign.Targeting.Gender.MALE
         )
     ),
-    CampaignCreateRequest(
+    CampaignCreateData(
         1000,
         1000,
         15.0,
@@ -229,11 +229,11 @@ val actionCampaignRequests = listOf(
         "Крутая реклама 4",
         1,
         10,
-        targeting = CampaignCreateRequest.Targeting(
+        targeting = CampaignCreateData.Targeting(
             gender = Campaign.Targeting.Gender.MALE
         )
     ),
-    CampaignCreateRequest(
+    CampaignCreateData(
         1000,
         1000,
         15.0,
@@ -242,11 +242,11 @@ val actionCampaignRequests = listOf(
         "Крутая реклама 5",
         1,
         10,
-        targeting = CampaignCreateRequest.Targeting(
+        targeting = CampaignCreateData.Targeting(
             gender = Campaign.Targeting.Gender.MALE
         )
     ),
-    CampaignCreateRequest(
+    CampaignCreateData(
         1000,
         1000,
         15.0,
@@ -255,11 +255,11 @@ val actionCampaignRequests = listOf(
         "Крутая реклама 6",
         1,
         10,
-        targeting = CampaignCreateRequest.Targeting(
+        targeting = CampaignCreateData.Targeting(
             gender = Campaign.Targeting.Gender.MALE
         )
     ),
-    CampaignCreateRequest(
+    CampaignCreateData(
         1000,
         1000,
         15.0,
@@ -268,14 +268,14 @@ val actionCampaignRequests = listOf(
         "Крутая реклама 7",
         1,
         10,
-        targeting = CampaignCreateRequest.Targeting(
+        targeting = CampaignCreateData.Targeting(
             gender = Campaign.Targeting.Gender.MALE
         )
     ),
 )
 
 val targetingTestCampaignRequests = listOf(
-    CampaignCreateRequest(
+    CampaignCreateData(
         100,
         100,
         1.0,
@@ -284,9 +284,9 @@ val targetingTestCampaignRequests = listOf(
         "Крутая реклама 1",
         1,
         10,
-        targeting = CampaignCreateRequest.Targeting()
+        targeting = CampaignCreateData.Targeting()
     ),
-    CampaignCreateRequest(
+    CampaignCreateData(
         100,
         100,
         1.0,
@@ -295,11 +295,11 @@ val targetingTestCampaignRequests = listOf(
         "Крутая реклама 2",
         1,
         10,
-        targeting = CampaignCreateRequest.Targeting(
+        targeting = CampaignCreateData.Targeting(
             gender = Campaign.Targeting.Gender.FEMALE
         )
     ),
-    CampaignCreateRequest(
+    CampaignCreateData(
         100,
         100,
         1.0,
@@ -308,11 +308,11 @@ val targetingTestCampaignRequests = listOf(
         "Крутая реклама 3",
         1,
         10,
-        targeting = CampaignCreateRequest.Targeting(
+        targeting = CampaignCreateData.Targeting(
             gender = Campaign.Targeting.Gender.MALE
         )
     ),
-    CampaignCreateRequest(
+    CampaignCreateData(
         100,
         100,
         1.0,
@@ -321,12 +321,12 @@ val targetingTestCampaignRequests = listOf(
         "Крутая реклама 4",
         1,
         10,
-        targeting = CampaignCreateRequest.Targeting(
+        targeting = CampaignCreateData.Targeting(
             gender = Campaign.Targeting.Gender.MALE,
             location = "Podval, Russia"
         )
     ),
-    CampaignCreateRequest(
+    CampaignCreateData(
         100,
         100,
         1.0,
@@ -335,13 +335,13 @@ val targetingTestCampaignRequests = listOf(
         "Крутая реклама 5",
         1,
         10,
-        targeting = CampaignCreateRequest.Targeting(
+        targeting = CampaignCreateData.Targeting(
             gender = Campaign.Targeting.Gender.FEMALE,
             location = "Podval, Russia",
             ageFrom = 16
         )
     ),
-    CampaignCreateRequest(
+    CampaignCreateData(
         100,
         100,
         1.0,
@@ -350,13 +350,13 @@ val targetingTestCampaignRequests = listOf(
         "Крутая реклама 6",
         1,
         10,
-        targeting = CampaignCreateRequest.Targeting(
+        targeting = CampaignCreateData.Targeting(
             gender = Campaign.Targeting.Gender.FEMALE,
             location = "Podval, Russia",
             ageFrom = 15
         )
     ),
-    CampaignCreateRequest(
+    CampaignCreateData(
         100,
         100,
         1.0,
@@ -365,7 +365,7 @@ val targetingTestCampaignRequests = listOf(
         "Крутая реклама 7",
         1,
         10,
-        targeting = CampaignCreateRequest.Targeting(
+        targeting = CampaignCreateData.Targeting(
             gender = Campaign.Targeting.Gender.ALL,
             location = "Podval, Russia",
             ageTo = 14

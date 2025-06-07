@@ -1,25 +1,24 @@
 package ru.cororo.corasense.route.advertiser
 
-import io.github.smiley4.ktoropenapi.resources.put
-import io.github.smiley4.ktoropenapi.resources.post
-import io.github.smiley4.ktoropenapi.resources.get
 import io.github.smiley4.ktoropenapi.resources.delete
+import io.github.smiley4.ktoropenapi.resources.get
+import io.github.smiley4.ktoropenapi.resources.post
+import io.github.smiley4.ktoropenapi.resources.put
 import io.ktor.http.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import org.koin.core.component.get
 import ru.cororo.corasense.inject.api
-import ru.cororo.corasense.model.campaign.data.Campaign
-import ru.cororo.corasense.model.campaign.data.hasStarted
-import ru.cororo.corasense.model.campaign.dto.CampaignCreateRequest
 import ru.cororo.corasense.model.campaign.dto.CampaignUpdateRequest
 import ru.cororo.corasense.model.dto.Errors
 import ru.cororo.corasense.model.dto.StatusResponse
 import ru.cororo.corasense.model.dto.respond
-import ru.cororo.corasense.model.moderation.data.ModerationScope
 import ru.cororo.corasense.route.Paths
-import ru.cororo.corasense.service.*
+import ru.cororo.corasense.shared.model.campaign.Campaign
+import ru.cororo.corasense.shared.model.campaign.CampaignCreateData
+import ru.cororo.corasense.shared.model.moderation.ModerationScope
+import ru.cororo.corasense.shared.service.*
 import ru.cororo.corasense.util.parseUuid
 
 fun Route.campaignApi() = api {
@@ -37,7 +36,7 @@ fun Route.campaignApi() = api {
                 description = "ID рекламодателя"
             }
 
-            body<CampaignCreateRequest>()
+            body<CampaignCreateData>()
         }
 
         response {
@@ -55,7 +54,7 @@ fun Route.campaignApi() = api {
         }
     }) {
         val advertiserId = parseUuid(it.advertiserId)
-        val request = call.receive<CampaignCreateRequest>()
+        val request = call.receive<CampaignCreateData>()
         val currentDay = currentDayService.getCurrentDay()
         if (request.startDate < currentDay || request.endDate < currentDay) {
             Errors.OutdatedDate.respond()
@@ -76,7 +75,7 @@ fun Route.campaignApi() = api {
         advertiserService.getAdvertiser(advertiserId) ?: Errors.AdvertiserNotFound.respond()
 
         request.imageId?.let {
-            if (imageService.getImage(it) == null) {
+            if (imageService.getImageData(it) == null) {
                 Errors.ImageNotFound.respond()
             }
         }
@@ -120,7 +119,7 @@ fun Route.campaignApi() = api {
         }
 
         val offset = pageSize * (pageNum - 1)
-        call.respond(campaignService.getAdvertiserCampaigns(advertiserId, offset, pageSize).first)
+        call.respond(campaignService.getAdvertiserCampaigns(advertiserId, offset, pageSize).pageEntities)
     }
 
     get<Paths.Advertisers.ById.Campaigns.CampaignById>({
@@ -216,7 +215,7 @@ fun Route.campaignApi() = api {
         }
 
         request.imageId?.let {
-            if (imageService.getImage(it) == null) {
+            if (imageService.getImageData(it) == null) {
                 Errors.ImageNotFound.respond()
             }
         }

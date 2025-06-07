@@ -11,9 +11,9 @@ import ru.cororo.corasense.model.dto.respond
 import ru.cororo.corasense.model.llm.dto.GenerateCampaignTextRequest
 import ru.cororo.corasense.model.llm.dto.GenerateCampaignTextResponse
 import ru.cororo.corasense.route.Paths
-import ru.cororo.corasense.service.AdvertiserService
-import ru.cororo.corasense.service.LlmService
 import io.github.smiley4.ktoropenapi.resources.post
+import ru.cororo.corasense.shared.service.AdvertiserService
+import ru.cororo.corasense.shared.service.LlmService
 
 fun Route.llmApi() = api {
     val llmService = it.get<LlmService>()

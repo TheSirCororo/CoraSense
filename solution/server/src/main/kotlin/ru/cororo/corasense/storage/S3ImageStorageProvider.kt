@@ -1,8 +1,9 @@
 package ru.cororo.corasense.storage
 
-import io.ktor.http.content.*
-import io.ktor.utils.io.*
-import ru.cororo.corasense.service.ImageService.Companion.allowedFileExtensions
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.withContext
+import ru.cororo.corasense.service.ImageServiceImpl.Companion.allowedFileExtensions
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider
 import software.amazon.awssdk.core.sync.RequestBody
@@ -12,6 +13,7 @@ import software.amazon.awssdk.services.s3.S3Client
 import software.amazon.awssdk.services.s3.model.DeleteObjectRequest
 import software.amazon.awssdk.services.s3.model.GetObjectRequest
 import software.amazon.awssdk.services.s3.model.PutObjectRequest
+import java.io.ByteArrayOutputStream
 import java.net.URI
 import java.util.*
 
@@ -28,22 +30,22 @@ class S3ImageStorageProvider(s3Endpoint: String, s3KeyId: String, s3KeyValue: St
         s3Client.listBuckets().buckets().find { it.name() == s3Bucket } ?: error("Бакет с именем $s3Bucket не найден!")
     }
 
-    override suspend fun uploadImage(
-        multiPartFile: PartData.FileItem,
-        id: UUID
-    ): String? {
-        val fileName = multiPartFile.originalFileName ?: return null
-        if (!allowedFileExtensions.any { fileName.endsWith(it) }) return null
+    override suspend fun uploadImage(id: UUID, fileName: String, bytesFlow: Flow<ByteArray>): String? = withContext(Dispatchers.IO) {
+        if (!allowedFileExtensions.any { fileName.endsWith(it) }) return@withContext null
+
+        val resultOutput = ByteArrayOutputStream()
+        bytesFlow.collect { resultOutput.write(it) }
         s3Client.putObject(
             PutObjectRequest.builder().bucket(s3Bucket).key(id.toString()).build(),
-            RequestBody.fromBytes(multiPartFile.provider().toByteArray())
+            RequestBody.fromBytes(resultOutput.toByteArray())
         )
 
-        return fileName
+        fileName
     }
 
-    override suspend fun loadImage(id: UUID) =
+    override suspend fun loadImage(id: UUID) = withContext(Dispatchers.IO) {
         s3Client.getObject(GetObjectRequest.builder().bucket(s3Bucket).key(id.toString()).build()).readBytes()
+    }
 
     override suspend fun deleteImage(id: UUID) {
         s3Client.deleteObject(DeleteObjectRequest.builder().bucket(s3Bucket).bucket(id.toString()).build())

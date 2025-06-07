@@ -8,14 +8,15 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.just
 import io.mockk.mockk
-import ru.cororo.corasense.model.campaign.data.Campaign
-import ru.cororo.corasense.model.campaign.dto.CampaignCreateRequest
-import ru.cororo.corasense.model.client.data.Client
+import ru.cororo.corasense.shared.model.campaign.Campaign
+import ru.cororo.corasense.shared.model.campaign.CampaignCreateData
+import ru.cororo.corasense.shared.model.client.Client
 import ru.cororo.corasense.repo.action.AdActionRepo
 import ru.cororo.corasense.repo.campaign.CampaignRepo
-import ru.cororo.corasense.service.CampaignService
-import ru.cororo.corasense.service.CurrentDayService
+import ru.cororo.corasense.service.CampaignServiceImpl
 import ru.cororo.corasense.service.MicrometerService
+import ru.cororo.corasense.shared.service.CurrentDayService
+import ru.cororo.corasense.shared.util.paged
 import java.util.*
 
 // unit тесты написаны при помощи чата гпт
@@ -24,7 +25,7 @@ class CampaignServiceTests : StringSpec({
     val adActionRepo = mockk<AdActionRepo>()
     val currentDayService = mockk<CurrentDayService>()
     val micrometerService = mockk<MicrometerService>()
-    val campaignService = CampaignService(campaignRepo, adActionRepo, currentDayService, micrometerService)
+    val campaignService = CampaignServiceImpl(campaignRepo, adActionRepo, currentDayService, micrometerService)
 
     beforeTest {
         clearAllMocks()
@@ -45,7 +46,7 @@ class CampaignServiceTests : StringSpec({
         targeting = Campaign.Targeting(gender = Campaign.Targeting.Gender.MALE)
     )
 
-    val campaignCreateRequest = CampaignCreateRequest(
+    val campaignCreateRequest = CampaignCreateData(
         impressionsLimit = 1000,
         clicksLimit = 500,
         costPerImpression = 0.1,
@@ -54,7 +55,7 @@ class CampaignServiceTests : StringSpec({
         adText = "Test Ad Text",
         startDate = 20230101,
         endDate = 20231231,
-        targeting = CampaignCreateRequest.Targeting(gender = Campaign.Targeting.Gender.MALE)
+        targeting = CampaignCreateData.Targeting(gender = Campaign.Targeting.Gender.MALE)
     )
 
     "should create campaign" {
@@ -90,12 +91,12 @@ class CampaignServiceTests : StringSpec({
 
     "should return advertiser campaigns with offset and limit" {
         val campaigns = setOf(randomCampaign)
-        coEvery { campaignRepo.getAdvertiserCampaigns(randomCampaign.advertiserId, 0, 10) } returns (campaigns to 1L)
+        coEvery { campaignRepo.getAdvertiserCampaigns(randomCampaign.advertiserId, 0, 10) } returns campaigns.paged(1L)
 
         val result = campaignService.getAdvertiserCampaigns(randomCampaign.advertiserId, 0, 10)
 
-        result.first shouldBe campaigns
-        result.second shouldBe 1L
+        result.pageEntities shouldBe campaigns
+        result.totalSize shouldBe 1L
         coVerify(exactly = 1) { campaignRepo.getAdvertiserCampaigns(randomCampaign.advertiserId, 0, 10) }
     }
 
@@ -127,7 +128,7 @@ class CampaignServiceTests : StringSpec({
     }
 
     "should return all campaigns" {
-        val campaigns = listOf(randomCampaign)
+        val campaigns = setOf(randomCampaign)
         coEvery { campaignRepo.getAll() } returns campaigns
 
         val result = campaignService.getAllCampaigns()

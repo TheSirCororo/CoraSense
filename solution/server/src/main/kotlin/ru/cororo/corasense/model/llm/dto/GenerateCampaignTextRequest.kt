@@ -2,7 +2,7 @@ package ru.cororo.corasense.model.llm.dto
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import ru.cororo.corasense.util.UuidString
+import ru.cororo.corasense.shared.util.UuidString
 
 @Serializable
 data class GenerateCampaignTextRequest(

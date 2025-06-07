@@ -2,7 +2,7 @@ package ru.cororo.corasense.repo.image
 
 import org.jetbrains.exposed.v1.jdbc.insert
 import org.jetbrains.exposed.v1.jdbc.update
-import ru.cororo.corasense.model.image.Image
+import ru.cororo.corasense.shared.model.image.Image
 import ru.cororo.corasense.plugin.sql
 import ru.cororo.corasense.repo.campaign.CampaignTable
 import ru.cororo.corasense.util.deleteById

@@ -1,8 +1,8 @@
 package ru.cororo.corasense.repo.action
 
-import ru.cororo.corasense.model.action.data.AdAction
-import ru.cororo.corasense.model.action.data.AdActionStats
-import ru.cororo.corasense.model.action.data.AdActionStatsDaily
+import ru.cororo.corasense.shared.model.action.AdAction
+import ru.cororo.corasense.shared.model.action.AdActionStats
+import ru.cororo.corasense.shared.model.action.AdActionStatsDaily
 import ru.cororo.corasense.repo.CrudRepo
 import java.util.UUID
 

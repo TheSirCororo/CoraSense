@@ -9,6 +9,7 @@ fun main(args: Array<String>) {
 }
 
 fun Application.module() {
+
     log.info("Starting application...")
 
     configureDatabase()
@@ -20,6 +21,6 @@ fun Application.module() {
     configureRouting()
     configureSwagger()
     configureMicrometer()
-    configureTelegram()
+    configureRpc()
     configureLLM()
 }

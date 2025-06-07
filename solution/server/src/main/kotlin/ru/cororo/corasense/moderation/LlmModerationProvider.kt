@@ -4,8 +4,8 @@ import io.ktor.server.application.Application
 import io.ktor.server.application.log
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
-import ru.cororo.corasense.model.moderation.data.ModerationVerdict
-import ru.cororo.corasense.service.LlmService
+import ru.cororo.corasense.shared.model.moderation.ModerationVerdict
+import ru.cororo.corasense.shared.service.LlmService
 
 object LlmModerationProvider : ModerationProvider, KoinComponent {
     val llmService by inject<LlmService>()

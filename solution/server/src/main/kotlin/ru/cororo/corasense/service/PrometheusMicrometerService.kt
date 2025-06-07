@@ -7,21 +7,16 @@ import io.micrometer.core.instrument.Tag
 import kotlinx.coroutines.*
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
-import ru.cororo.corasense.model.action.data.AdActionStats
-import ru.cororo.corasense.model.action.data.AdActionStatsDaily
-import ru.cororo.corasense.model.advertiser.data.Advertiser
-import ru.cororo.corasense.model.campaign.data.Campaign
+import ru.cororo.corasense.shared.model.action.AdActionStats
+import ru.cororo.corasense.shared.model.action.AdActionStatsDaily
+import ru.cororo.corasense.shared.model.advertiser.Advertiser
+import ru.cororo.corasense.shared.model.campaign.Campaign
+import ru.cororo.corasense.shared.service.AdActionService
+import ru.cororo.corasense.shared.service.AdvertiserService
+import ru.cororo.corasense.shared.service.CampaignService
 import java.util.UUID
 import java.util.concurrent.atomic.AtomicReference
 import kotlin.collections.ArrayDeque
-import kotlin.collections.List
-import kotlin.collections.any
-import kotlin.collections.filter
-import kotlin.collections.forEach
-import kotlin.collections.getOrPut
-import kotlin.collections.listOf
-import kotlin.collections.mutableListOf
-import kotlin.collections.mutableMapOf
 import kotlin.coroutines.CoroutineContext
 import kotlin.time.Duration.Companion.seconds
 
@@ -33,8 +28,8 @@ object PrometheusMicrometerService : CoroutineScope, KoinComponent, MicrometerSe
     private val markedAdvertisers = ArrayDeque<UUID>()
     override val coroutineContext: CoroutineContext = Dispatchers.IO + CoroutineName("MicrometerService") + Job()
 
-    override fun init(registry: MeterRegistry) {
-        meterRegistry = registry
+    override fun init(meterRegistry: MeterRegistry) {
+        PrometheusMicrometerService.meterRegistry = meterRegistry
 
         val campaignService = get<CampaignService>()
         val advertiserService = get<AdvertiserService>()
@@ -150,16 +145,16 @@ object PrometheusMicrometerService : CoroutineScope, KoinComponent, MicrometerSe
 
     override suspend fun deleteCampaignStats(campaignId: UUID) {
         application.log.debug("Удаляем статистику кампании {}...", campaignId)
-        gauges.filter { it.key.first.startsWith("campaign") && it.key.second.any { it.value == campaignId.toString() } }
+        gauges.filter { gauge -> gauge.key.first.startsWith("campaign") && gauge.key.second.any { it.value == campaignId.toString() } }
             .forEach {
                 gauges.remove(it.key)
             }
 
         val metersToRemove = mutableListOf<Meter>()
-        meterRegistry.forEachMeter {
-            val id = it.id
+        meterRegistry.forEachMeter { meter ->
+            val id = meter.id
             if (id.name.startsWith("campaign") && id.tags.any { it.value == campaignId.toString() }) {
-                metersToRemove.add(it)
+                metersToRemove.add(meter)
             }
         }
 
@@ -169,7 +164,7 @@ object PrometheusMicrometerService : CoroutineScope, KoinComponent, MicrometerSe
     }
 
     override suspend fun deleteAdvertiserStats(advertiserId: UUID) {
-        gauges.filter { it.key.first.startsWith("advertiser") && it.key.second.any { it.value == advertiserId.toString() } }
+        gauges.filter { gauge -> gauge.key.first.startsWith("advertiser") && gauge.key.second.any { it.value == advertiserId.toString() } }
             .forEach {
                 gauges.remove(it.key)
             }

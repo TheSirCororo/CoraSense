@@ -5,8 +5,8 @@ import io.konform.validation.constraints.minLength
 import io.konform.validation.constraints.minimum
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import ru.cororo.corasense.model.campaign.dto.CampaignCreateRequest.Targeting
-import ru.cororo.corasense.util.UuidString
+import ru.cororo.corasense.shared.model.campaign.CampaignCreateData.Targeting
+import ru.cororo.corasense.shared.util.UuidString
 import ru.cororo.corasense.validation.validator
 
 @Serializable
@@ -69,7 +69,7 @@ data class CampaignUpdateRequest(
                     }
 
                     constrain("ageTo >= ageFrom") {
-                        if (it.ageTo != null && it.ageFrom != null) it.ageTo >= it.ageFrom
+                        if (it.ageTo != null && it.ageFrom != null) it.ageTo!! >= it.ageFrom!!
                         else true
                     }
                 }

@@ -2,7 +2,6 @@
 [versions]
 # Kotlin
 kotlin = "2.1.21"
-kotlin-serialization = "1.8.1"
 
 # Ktor
 ktor = "3.1.3"
@@ -42,9 +41,16 @@ kotest-extensions-testcontainers = "2.0.2"
 testcontainers-postgresql = "1.21.1"
 mockk = "1.13.16"
 
+# kotlinx.rpc
+krpc = "0.7.0"
+
+# kotlinx.serialization
+serialization = "1.8.1"
+
 # Plugins
 ksp = "2.1.21-2.0.1"
 telegram-bot = "8.1.0"
+shadowJar = "9.0.0-beta15"
 
 [libraries]
 # Ktor - Server
@@ -99,6 +105,17 @@ aws-sso = { module = "software.amazon.awssdk:sso" }
 aws-ssooidc = { module = "software.amazon.awssdk:ssooidc" }
 aws-apache-client = { module = "software.amazon.awssdk:apache-client" }
 
+# kotlinx.rpc
+rpc-server-api = { module = "org.jetbrains.kotlinx:kotlinx-rpc-krpc-server", version.ref = "krpc" }
+rpc-server-ktor = { module = "org.jetbrains.kotlinx:kotlinx-rpc-krpc-ktor-server", version.ref = "krpc" }
+rpc-client-api = { module = "org.jetbrains.kotlinx:kotlinx-rpc-krpc-client", version.ref = "krpc" }
+rpc-client-ktor = { module = "org.jetbrains.kotlinx:kotlinx-rpc-krpc-ktor-client", version.ref = "krpc" }
+rpc-core = { module = "org.jetbrains.kotlinx:kotlinx-rpc-krpc-core", version.ref = "krpc" }
+rpc-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-rpc-krpc-serialization-json", version.ref = "krpc" }
+
+# kotlinx.serialization
+serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization" }
+
 # Metrics
 micrometer-prometheus = { module = "io.micrometer:micrometer-registry-prometheus", version.ref = "micrometer" }
 
@@ -121,9 +138,11 @@ ktor-client = ["ktor-client-core", "ktor-client-cio", "ktor-client-content-negot
 ktor-server = ["ktor-server-core", "ktor-server-content-negotiation", "ktor-server-cors", "ktor-server-metrics-micrometer", "ktor-server-netty", "ktor-server-request-validation", "ktor-server-resources", "ktor-server-status-pages"]
 swagger = ["ktor-swagger-ui", "schema-kenerator-core", "schema-kenerator-jsonschema", "schema-kenerator-reflection", "schema-kenerator-swagger", "ktor-openapi"]
 aws = ["aws-s3", "aws-sso", "aws-ssooidc", "aws-apache-client"]
-koin = ["koin-core", "koin-ktor", "koin-logger-slf4j"]
+koin = ["koin-core", "koin-logger-slf4j"]
 database = ["exposed-core", "exposed-jdbc", "exposed-json", "hikaricp", "postgres"]
 test-server = ["kotlin-test", "ktor-server-test-host", "ktor-client-content-negotiation", "ktor-client-mock", "kotest-runner-junit5", "kotest-assertions-core", "kotest-property", "kotest-assertions-ktor", "kotest-extensions-testcontainers", "h2", "postgres", "koin-test", "mockk", "testcontainers-postgresql"]
+krpc-server = ["rpc-server-api", "rpc-server-ktor", "rpc-serialization-json"]
+krpc-client = ["rpc-client-api", "rpc-client-ktor", "rpc-serialization-json"]
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
@@ -131,3 +150,5 @@ kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", versi
 ktor = { id = "io.ktor.plugin", version.ref = "ktor" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 telegram-bot = { id = "eu.vendeli.telegram-bot", version.ref = "telegram-bot" }
+krpc = { id = "org.jetbrains.kotlinx.rpc.plugin", version.ref = "krpc" }
+shadowJar = { id = "com.gradleup.shadow", version.ref = "shadowJar" }

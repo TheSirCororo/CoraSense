@@ -1,6 +1,6 @@
 package ru.cororo.corasense.repo.ml
 
-import ru.cororo.corasense.model.ml.data.MLScore
+import ru.cororo.corasense.shared.model.ml.MLScore
 import ru.cororo.corasense.repo.CachedCrudRepo
 import java.util.*
 

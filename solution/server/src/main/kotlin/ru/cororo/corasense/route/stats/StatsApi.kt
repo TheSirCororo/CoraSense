@@ -1,22 +1,22 @@
 package ru.cororo.corasense.route.stats
 
-import io.ktor.http.HttpStatusCode
-import io.ktor.server.response.respond
-import io.ktor.server.routing.Route
+import io.github.smiley4.ktoropenapi.resources.get
+import io.ktor.http.*
+import io.ktor.server.response.*
+import io.ktor.server.routing.*
 import org.koin.core.component.get
 import ru.cororo.corasense.inject.api
-import ru.cororo.corasense.model.action.data.AdActionStats
-import ru.cororo.corasense.model.action.data.AdActionStatsDaily
 import ru.cororo.corasense.model.dto.Errors
 import ru.cororo.corasense.model.dto.StatusResponse
 import ru.cororo.corasense.model.dto.respond
 import ru.cororo.corasense.route.Paths
-import ru.cororo.corasense.service.AdActionService
-import ru.cororo.corasense.service.AdvertiserService
-import ru.cororo.corasense.service.CampaignService
+import ru.cororo.corasense.shared.model.action.AdActionStats
+import ru.cororo.corasense.shared.model.action.AdActionStatsDaily
+import ru.cororo.corasense.shared.service.AdActionService
+import ru.cororo.corasense.shared.service.AdvertiserService
+import ru.cororo.corasense.shared.service.CampaignService
 import ru.cororo.corasense.util.parseUuid
-import io.github.smiley4.ktoropenapi.resources.get
-import java.util.UUID
+import java.util.*
 
 fun Route.statsApi() = api {
     val adActionService = it.get<AdActionService>()
@@ -25,7 +25,8 @@ fun Route.statsApi() = api {
 
     get<Paths.Stats.Advertisers>({
         summary = "Общая статистика рекламодателя"
-        description = "Возвращает сводную статистику по всем рекламным кампаниям, принадлежащим заданному рекламодателю."
+        description =
+            "Возвращает сводную статистику по всем рекламным кампаниям, принадлежащим заданному рекламодателю."
 
         request {
             pathParameter<UUID>("advertiserId") {
@@ -59,7 +60,8 @@ fun Route.statsApi() = api {
 
     get<Paths.Stats.Advertisers.Daily>({
         summary = "Ежедневная статистика рекламодателя"
-        description = "Возвращает массив ежедневной сводной статистики по всем рекламным кампаниям заданного рекламодателя."
+        description =
+            "Возвращает массив ежедневной сводной статистики по всем рекламным кампаниям заданного рекламодателя."
 
         request {
             pathParameter<UUID>("advertiserId") {
@@ -93,7 +95,8 @@ fun Route.statsApi() = api {
 
     get<Paths.Stats.Campaigns>({
         summary = "Общая статистика рекламной кампании"
-        description = "Возвращает агрегированную статистику (показы, переходы, затраты и конверсию) для заданной рекламной кампании."
+        description =
+            "Возвращает агрегированную статистику (показы, переходы, затраты и конверсию) для заданной рекламной кампании."
 
         request {
             pathParameter<UUID>("campaignId") {

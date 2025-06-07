@@ -1,10 +1,10 @@
 package ru.cororo.corasense.service
 
 import io.micrometer.core.instrument.MeterRegistry
-import ru.cororo.corasense.model.action.data.AdActionStats
-import ru.cororo.corasense.model.action.data.AdActionStatsDaily
-import ru.cororo.corasense.model.advertiser.data.Advertiser
-import ru.cororo.corasense.model.campaign.data.Campaign
+import ru.cororo.corasense.shared.model.action.AdActionStats
+import ru.cororo.corasense.shared.model.action.AdActionStatsDaily
+import ru.cororo.corasense.shared.model.advertiser.Advertiser
+import ru.cororo.corasense.shared.model.campaign.Campaign
 import java.util.*
 
 interface MicrometerService {

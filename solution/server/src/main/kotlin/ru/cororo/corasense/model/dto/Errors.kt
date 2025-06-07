@@ -1,6 +1,6 @@
 package ru.cororo.corasense.model.dto
 
-import ru.cororo.corasense.model.moderation.data.ModerationVerdict
+import ru.cororo.corasense.shared.model.moderation.ModerationVerdict
 
 object Errors {
     val BodyProblem = error<Throwable>(400, 1) { "There is an error with body: $it" }

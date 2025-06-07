@@ -1,7 +1,7 @@
 package ru.cororo.corasense.repo.client
 
 import org.jetbrains.exposed.v1.core.dao.id.UUIDTable
-import ru.cororo.corasense.model.client.data.Client
+import ru.cororo.corasense.shared.model.client.Client
 
 object ClientTable : UUIDTable("clients") {
     val login = varchar("login", 128)

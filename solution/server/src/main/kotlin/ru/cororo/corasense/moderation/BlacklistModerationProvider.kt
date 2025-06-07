@@ -6,7 +6,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
-import ru.cororo.corasense.model.moderation.data.ModerationVerdict
+import ru.cororo.corasense.shared.model.moderation.ModerationVerdict
 import ru.cororo.corasense.repo.moderation.BlockedWordRepo
 
 object BlacklistModerationProvider : ModerationProvider, KoinComponent, CoroutineScope {

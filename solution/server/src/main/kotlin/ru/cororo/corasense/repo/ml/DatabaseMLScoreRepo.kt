@@ -5,7 +5,7 @@ import org.jetbrains.exposed.v1.core.and
 import org.jetbrains.exposed.v1.jdbc.deleteWhere
 import org.jetbrains.exposed.v1.jdbc.selectAll
 import org.jetbrains.exposed.v1.jdbc.upsert
-import ru.cororo.corasense.model.ml.data.MLScore
+import ru.cororo.corasense.shared.model.ml.MLScore
 import ru.cororo.corasense.plugin.sql
 import java.util.*
 

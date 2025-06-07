@@ -11,12 +11,12 @@ import org.jetbrains.exposed.v1.jdbc.transactions.transaction
 import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
 import org.koin.dsl.module
-import ru.cororo.corasense.model.advertiser.data.Advertiser
-import ru.cororo.corasense.model.campaign.data.Campaign
+import ru.cororo.corasense.shared.model.advertiser.Advertiser
+import ru.cororo.corasense.shared.model.campaign.Campaign
 import ru.cororo.corasense.repo.advertiser.AdvertiserRepo
 import ru.cororo.corasense.repo.campaign.CampaignRepo
 import ru.cororo.corasense.repo.time.CurrentDayTable
-import ru.cororo.corasense.service.CurrentDayService
+import ru.cororo.corasense.service.CurrentDayServiceImpl
 import ru.cororo.corasense.service.MicrometerService
 import java.util.*
 
@@ -50,16 +50,16 @@ class CurrentDayServiceTests : StringSpec({
 
     "should return 0 if no current day is set" {
         testSuspend {
-            CurrentDayService().getCurrentDay() shouldBe 0
+            CurrentDayServiceImpl().getCurrentDay() shouldBe 0
         }
     }
 
     "should return the current day from DB" {
-        coEvery { advertiserRepo.getAll() } returns listOf()
-        coEvery { campaignRepo.getAll() } returns listOf()
+        coEvery { advertiserRepo.getAll() } returns setOf()
+        coEvery { campaignRepo.getAll() } returns setOf()
 
         testSuspend {
-            val service = CurrentDayService()
+            val service = CurrentDayServiceImpl()
             service.setCurrentDay(5)
             service.getCurrentDay() shouldBe 5
         }
@@ -83,11 +83,11 @@ class CurrentDayServiceTests : StringSpec({
         )
         coEvery { micrometerService.markToUpdateCampaign(any()) } just Runs
         coEvery { micrometerService.markToUpdateAdvertiser(any()) } just Runs
-        coEvery { advertiserRepo.getAll() } returns listOf(testAdvertiser)
-        coEvery { campaignRepo.getAll() } returns listOf(testCampaign)
+        coEvery { advertiserRepo.getAll() } returns setOf(testAdvertiser)
+        coEvery { campaignRepo.getAll() } returns setOf(testCampaign)
 
         testSuspend {
-            val service = CurrentDayService()
+            val service = CurrentDayServiceImpl()
             service.setCurrentDay(10)
         }
 

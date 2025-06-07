@@ -1,25 +1,25 @@
 package ru.cororo.corasense.route.advertiser
 
+import io.github.smiley4.ktoropenapi.resources.get
+import io.github.smiley4.ktoropenapi.resources.post
 import io.ktor.http.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import org.koin.core.component.get
 import ru.cororo.corasense.inject.api
-import ru.cororo.corasense.model.action.data.AdAction
 import ru.cororo.corasense.model.campaign.dto.CampaignAd
 import ru.cororo.corasense.model.campaign.dto.CampaignClickRequest
 import ru.cororo.corasense.model.dto.Errors
 import ru.cororo.corasense.model.dto.StatusResponse
 import ru.cororo.corasense.model.dto.respond
 import ru.cororo.corasense.route.Paths
-import ru.cororo.corasense.service.AdActionService
-import ru.cororo.corasense.service.CampaignService
-import ru.cororo.corasense.service.ClientService
-import ru.cororo.corasense.service.CurrentDayService
-import io.github.smiley4.ktoropenapi.resources.get
+import ru.cororo.corasense.shared.model.action.AdAction
+import ru.cororo.corasense.shared.service.AdActionService
+import ru.cororo.corasense.shared.service.CampaignService
+import ru.cororo.corasense.shared.service.ClientService
+import ru.cororo.corasense.shared.service.CurrentDayService
 import ru.cororo.corasense.util.parseUuid
-import io.github.smiley4.ktoropenapi.resources.post
 import java.util.*
 
 fun Route.clientAdsApi() = api {

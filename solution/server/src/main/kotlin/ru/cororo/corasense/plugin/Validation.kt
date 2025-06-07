@@ -7,6 +7,7 @@ import io.ktor.server.application.install
 import io.ktor.server.application.log
 import io.ktor.server.plugins.requestvalidation.RequestValidation
 import io.ktor.server.plugins.requestvalidation.ValidationResult
+import ru.cororo.corasense.model.campaign.validator.campaignCreateDataValidator
 import ru.cororo.corasense.validation.validate
 
 fun Application.configureValidation() {
@@ -35,6 +36,8 @@ fun Application.configureValidation() {
             }
         }
     }
+
+    campaignCreateDataValidator()
 }
 
 private fun <T : Any> ValidationError.asString(data: T) = "${data::class.simpleName}$dataPath: $message"

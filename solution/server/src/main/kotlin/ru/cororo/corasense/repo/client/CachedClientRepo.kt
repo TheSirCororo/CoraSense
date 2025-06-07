@@ -1,6 +1,6 @@
 package ru.cororo.corasense.repo.client
 
-import ru.cororo.corasense.model.client.data.Client
+import ru.cororo.corasense.shared.model.client.Client
 import ru.cororo.corasense.repo.CachedCrudRepo
 import java.util.*
 

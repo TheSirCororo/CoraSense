@@ -7,16 +7,16 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.just
 import io.mockk.mockk
-import ru.cororo.corasense.model.client.data.Client
-import ru.cororo.corasense.model.client.data.Client.Gender
+import ru.cororo.corasense.shared.model.client.Client
+import ru.cororo.corasense.shared.model.client.Client.Gender
 import ru.cororo.corasense.repo.client.ClientRepo
-import ru.cororo.corasense.service.ClientService
+import ru.cororo.corasense.service.ClientServiceImpl
 import java.util.UUID
 
 // unit тесты написаны при помощи чата гпт
 class ClientServiceTests : StringSpec({
     val clientRepo = mockk<ClientRepo>()
-    val clientService = ClientService(clientRepo)
+    val clientService = ClientServiceImpl(clientRepo)
     fun randomClient() = Client(
         id = UUID.randomUUID(),
         login = "test_user",

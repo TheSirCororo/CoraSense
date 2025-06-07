@@ -1,8 +1,8 @@
 package ru.cororo.corasense.model.moderation.dto
 
 import kotlinx.serialization.Serializable
-import ru.cororo.corasense.model.moderation.data.ModerationScope
-import ru.cororo.corasense.service.ModerationService
+import ru.cororo.corasense.shared.model.moderation.ModerationScope
+import ru.cororo.corasense.shared.model.moderation.ModerationMode
 import ru.cororo.corasense.validation.validator
 
 @Serializable
@@ -14,9 +14,9 @@ data class ModerationModeRequest(
         init {
             validator<ModerationModeRequest> {
                 ModerationModeRequest::mode {
-                    constrain("Доступные режимы модерации: ${ModerationService.Mode.entries.joinToString(", ")}") {
+                    constrain("Доступные режимы модерации: ${ModerationMode.entries.joinToString(", ")}") {
                         try {
-                            ModerationService.Mode.valueOf(it.uppercase())
+                            ModerationMode.valueOf(it.uppercase())
                             true
                         } catch (_: Exception) {
                             false

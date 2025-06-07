@@ -1,5 +1,6 @@
 package ru.cororo.corasense.route.moderation
 
+import io.github.smiley4.ktoropenapi.resources.post
 import io.ktor.http.*
 import io.ktor.server.request.*
 import io.ktor.server.routing.*
@@ -7,11 +8,11 @@ import org.koin.core.component.get
 import ru.cororo.corasense.inject.api
 import ru.cororo.corasense.model.dto.StatusResponse
 import ru.cororo.corasense.model.dto.respondOk
-import ru.cororo.corasense.model.moderation.data.ModerationScope
 import ru.cororo.corasense.model.moderation.dto.ModerationModeRequest
 import ru.cororo.corasense.route.Paths
-import ru.cororo.corasense.service.ModerationService
-import io.github.smiley4.ktoropenapi.resources.post
+import ru.cororo.corasense.shared.model.moderation.ModerationMode
+import ru.cororo.corasense.shared.model.moderation.ModerationScope
+import ru.cororo.corasense.shared.service.ModerationService
 
 fun Route.moderationManagementApi() = api {
     val moderationService = it.get<ModerationService>()
@@ -38,7 +39,7 @@ fun Route.moderationManagementApi() = api {
         description =
             "Изменить режим модерации. Поддерживается смена режима отдельно для scope. Поддерживаемые scope: ${
                 ModerationScope.entries.joinToString(", ") { it.name }
-            }. Поддерживаемые mode: ${ModerationService.Mode.entries.joinToString(", ") { it.name }}"
+            }. Поддерживаемые mode: ${ModerationMode.entries.joinToString(", ") { it.name }}"
         request {
             body<ModerationModeRequest>()
         }
@@ -54,7 +55,7 @@ fun Route.moderationManagementApi() = api {
         }
     }) {
         val request = call.receive<ModerationModeRequest>()
-        val mode = ModerationService.Mode.valueOf(request.mode.uppercase())
+        val mode = ModerationMode.valueOf(request.mode.uppercase())
         val scope = request.scope?.let { ModerationScope.valueOf(it.uppercase()) }
         moderationService.setMode(scope, mode)
         call.respondOk()

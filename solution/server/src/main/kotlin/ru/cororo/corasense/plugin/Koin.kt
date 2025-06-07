@@ -28,8 +28,17 @@ import ru.cororo.corasense.repo.moderation.BlockedWordRepo
 import ru.cororo.corasense.repo.moderation.CachedBlockedWordRepo
 import ru.cororo.corasense.repo.moderation.DatabaseBlockedWordRepo
 import ru.cororo.corasense.service.*
+import ru.cororo.corasense.shared.service.AdActionService
+import ru.cororo.corasense.shared.service.AdvertiserService
+import ru.cororo.corasense.shared.service.CampaignService
+import ru.cororo.corasense.shared.service.ClientService
+import ru.cororo.corasense.shared.service.CurrentDayService
+import ru.cororo.corasense.shared.service.ImageService
+import ru.cororo.corasense.shared.service.LlmService
+import ru.cororo.corasense.shared.service.MLScoreService
+import ru.cororo.corasense.shared.service.ModerationService
 
-val appModules = mutableListOf<Module>()
+internal val appModules = mutableListOf<Module>()
 
 fun Application.configureKoin() {
     install(Koin) {
@@ -37,23 +46,22 @@ fun Application.configureKoin() {
         appModules.add(0, module {
             single<Application> { this@configureKoin }
             single<ClientRepo> { CachedClientRepo(DatabaseClientRepo) }
-            single<ClientService> { ClientService(get()) }
+            single<ClientService> { ClientServiceImpl(get()) }
             single<AdvertiserRepo> { CachedAdvertiserRepo(DatabaseAdvertiserRepo) }
-            single<AdvertiserService> { AdvertiserService(get(), get()) }
+            single<AdvertiserService> { AdvertiserServiceImpl(get(), get()) }
             single<MLScoreRepo> { CachedMLScoreRepo(DatabaseMLScoreRepo) }
-            single<MLScoreService> { MLScoreService(get()) }
-            single<CurrentDayService> { CurrentDayService() }
+            single<MLScoreService> { MLScoreServiceImpl(get()) }
+            single<CurrentDayService> { CurrentDayServiceImpl() }
             single<CampaignRepo> { CachedCampaignRepo(DatabaseCampaignRepo) }
-            single<CampaignService> { CampaignService(get(), get(), get(), get()) }
+            single<CampaignService> { CampaignServiceImpl(get(), get(), get(), get()) }
             single<AdActionRepo> { CachedAdActionRepo(DatabaseAdActionRepo) }
-            single<AdActionService> { AdActionService(get(), get(), get()) }
+            single<AdActionService> { AdActionServiceImpl(get(), get(), get()) }
             single<MicrometerService> { PrometheusMicrometerService }
             single<ImageRepo> { CachedImageRepo(DatabaseImageRepo) }
-            single<ImageService> { ImageService(get(), get()) }
-            single<LlmService> { LlmService(get()) }
-            single<ModerationService> { ModerationService(get(), get()) }
+            single<ImageService> { ImageServiceImpl(get(), get()) }
+            single<LlmService> { LlmServiceImpl(get()) }
+            single<ModerationService> { ModerationServiceImpl(get()) }
             single<BlockedWordRepo> { CachedBlockedWordRepo(DatabaseBlockedWordRepo) }
-            single<TelegramBotService> { TelegramBotService(get()) }
         })
 
         modules(appModules)

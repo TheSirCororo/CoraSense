@@ -23,16 +23,16 @@ import org.jetbrains.exposed.v1.jdbc.deleteAll
 import org.jetbrains.exposed.v1.jdbc.transactions.transaction
 import org.koin.dsl.module
 import org.testcontainers.containers.PostgreSQLContainer
-import ru.cororo.corasense.model.action.data.AdActionStats
-import ru.cororo.corasense.model.action.data.AdActionStatsDaily
-import ru.cororo.corasense.model.advertiser.data.Advertiser
-import ru.cororo.corasense.model.campaign.data.Campaign
+import ru.cororo.corasense.shared.model.action.AdActionStats
+import ru.cororo.corasense.shared.model.action.AdActionStatsDaily
+import ru.cororo.corasense.shared.model.advertiser.Advertiser
+import ru.cororo.corasense.shared.model.campaign.Campaign
 import ru.cororo.corasense.model.campaign.dto.CampaignAd
 import ru.cororo.corasense.model.campaign.dto.CampaignClickRequest
-import ru.cororo.corasense.model.campaign.dto.CampaignCreateRequest
+import ru.cororo.corasense.shared.model.campaign.CampaignCreateData
 import ru.cororo.corasense.model.campaign.dto.CampaignUpdateRequest
-import ru.cororo.corasense.model.client.data.Client
-import ru.cororo.corasense.model.ml.data.MLScore
+import ru.cororo.corasense.shared.model.client.Client
+import ru.cororo.corasense.shared.model.ml.MLScore
 import ru.cororo.corasense.model.time.dto.TimeUpdateRequest
 import ru.cororo.corasense.module
 import ru.cororo.corasense.plugin.appModules
@@ -291,7 +291,7 @@ class E2ETests : FunSpec({
                     endDate = modifiedCampaign.endDate,
                     imageId = modifiedCampaign.imageId,
                     targeting = modifiedCampaign.targeting.let {
-                        CampaignCreateRequest.Targeting(
+                        CampaignCreateData.Targeting(
                             it.gender, it.ageFrom, it.ageTo, it.location
                         )
                     }

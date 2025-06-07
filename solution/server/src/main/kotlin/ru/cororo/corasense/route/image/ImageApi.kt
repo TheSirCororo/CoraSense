@@ -1,22 +1,27 @@
 package ru.cororo.corasense.route.image
 
+import io.github.smiley4.ktoropenapi.resources.delete
+import io.github.smiley4.ktoropenapi.resources.get
+import io.github.smiley4.ktoropenapi.resources.post
 import io.ktor.http.*
+import io.ktor.http.content.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import io.ktor.utils.io.*
 import org.koin.core.component.get
 import ru.cororo.corasense.inject.api
 import ru.cororo.corasense.model.dto.Errors
 import ru.cororo.corasense.model.dto.StatusResponse
 import ru.cororo.corasense.model.dto.respond
 import ru.cororo.corasense.model.dto.respondOk
-import ru.cororo.corasense.model.image.Image
 import ru.cororo.corasense.route.Paths
-import ru.cororo.corasense.service.ImageService
-import io.github.smiley4.ktoropenapi.resources.delete
-import io.github.smiley4.ktoropenapi.resources.get
+import ru.cororo.corasense.service.ImageServiceImpl
+import ru.cororo.corasense.shared.model.image.Image
+import ru.cororo.corasense.shared.service.ImageService
+import ru.cororo.corasense.util.asBytesFlow
 import ru.cororo.corasense.util.parseUuid
-import io.github.smiley4.ktoropenapi.resources.post
+import ru.cororo.corasense.util.readByteArray
 import java.util.*
 
 fun Route.imageApi() = api {
@@ -25,7 +30,8 @@ fun Route.imageApi() = api {
     post<Paths.Images>({
         summary = "Загрузить изображение."
         description = "Необходимо отправить файл в единственном поле multipart data. Поддерживаемые типы: ${
-            ImageService.allowedFileExtensions.joinToString(", ")}"
+            ImageServiceImpl.allowedFileExtensions.joinToString(", ")
+        }"
 
         request {
             multipartBody {}
@@ -38,15 +44,25 @@ fun Route.imageApi() = api {
         }
     }) {
         if ((call.request.header(HttpHeaders.ContentLength)?.toLongOrNull()
-                ?: Long.MAX_VALUE) > imageService.maxImageSize
+                ?: Long.MAX_VALUE) > imageService.maxImageSize()
         ) {
             Errors.BadRequest.respond()
         }
 
         val multipart = call.receiveMultipart()
+        val part = multipart.readPart() ?: Errors.BadRequest.respond()
+        if (part !is PartData.FileItem) {
+            Errors.BadRequest.respond()
+        }
+
+        val uploadFileName = part.originalFileName ?: Errors.BadRequest.respond()
         val id = UUID.randomUUID()
-        val fileName = imageService.uploadImage(multipart, id) ?: Errors.BadRequest.respond()
-        call.respond(status = HttpStatusCode.Created, imageService.saveImage(id, fileName))
+        val result = imageService.uploadImage(id, uploadFileName, part.provider().toByteArray().asBytesFlow())
+            ?: Errors.BadRequest.respond()
+
+        part.dispose()
+
+        call.respond(status = HttpStatusCode.Created, imageService.saveImageData(id, result.resultFileName))
     }
 
     get<Paths.Images.ById>({
@@ -83,7 +99,7 @@ fun Route.imageApi() = api {
     }) {
         val id = parseUuid(it.imageId)
         val download = call.queryParameters["download"]?.toBooleanStrictOrNull() == true
-        val image = imageService.getImage(id) ?: Errors.ImageNotFound.respond()
+        val image = imageService.getImageData(id) ?: Errors.ImageNotFound.respond()
         val bytes = imageService.loadImageBytes(id) ?: run {
             imageService.deleteImage(id)
             Errors.ImageNotFound.respond()
@@ -96,7 +112,7 @@ fun Route.imageApi() = api {
             ).toString()
         )
 
-        call.respondBytes(bytes, contentType = ContentType.Image.Any)
+        call.respondBytes(bytes.readByteArray(), contentType = ContentType.Image.Any)
     }
 
     delete<Paths.Images.ById>({
@@ -130,7 +146,7 @@ fun Route.imageApi() = api {
         }
     }) {
         val id = parseUuid(it.imageId)
-        imageService.getImage(id) ?: Errors.ImageNotFound.respond()
+        imageService.getImageData(id) ?: Errors.ImageNotFound.respond()
         imageService.deleteImage(id)
         call.respondOk()
     }

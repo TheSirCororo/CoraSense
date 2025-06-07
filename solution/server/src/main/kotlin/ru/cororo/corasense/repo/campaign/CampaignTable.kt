@@ -3,7 +3,7 @@ package ru.cororo.corasense.repo.campaign
 import kotlinx.serialization.json.Json
 import org.jetbrains.exposed.v1.core.dao.id.UUIDTable
 import org.jetbrains.exposed.v1.json.json
-import ru.cororo.corasense.model.campaign.data.Campaign
+import ru.cororo.corasense.shared.model.campaign.Campaign
 import ru.cororo.corasense.repo.advertiser.AdvertiserTable
 import ru.cororo.corasense.repo.image.ImageTable
 

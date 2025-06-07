@@ -11,13 +11,15 @@ import org.jetbrains.exposed.v1.jdbc.update
 import org.jetbrains.exposed.v1.json.extract
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
-import ru.cororo.corasense.model.action.data.AdAction
-import ru.cororo.corasense.model.campaign.data.Campaign
-import ru.cororo.corasense.model.campaign.dto.CampaignCreateRequest
-import ru.cororo.corasense.model.client.data.Client
+import ru.cororo.corasense.shared.model.action.AdAction
+import ru.cororo.corasense.shared.model.campaign.Campaign
+import ru.cororo.corasense.shared.model.campaign.CampaignCreateData
+import ru.cororo.corasense.shared.model.client.Client
 import ru.cororo.corasense.plugin.sql
 import ru.cororo.corasense.repo.action.AdActionTable
 import ru.cororo.corasense.repo.ml.MLScoreTable
+import ru.cororo.corasense.shared.util.PagedEntities
+import ru.cororo.corasense.shared.util.paged
 import ru.cororo.corasense.util.*
 import java.util.*
 
@@ -47,7 +49,7 @@ object DatabaseCampaignRepo : CampaignRepo, KoinComponent {
         }
     }
 
-    override suspend fun createCampaign(advertiserId: UUID, request: CampaignCreateRequest): Campaign = sql {
+    override suspend fun createCampaign(advertiserId: UUID, request: CampaignCreateData): Campaign = sql {
         CampaignTable.insert {
             it[this.advertiserId] = advertiserId
             it[impressionsLimit] = request.impressionsLimit
@@ -119,7 +121,7 @@ object DatabaseCampaignRepo : CampaignRepo, KoinComponent {
         advertiserId: UUID,
         offset: Long,
         limit: Int
-    ): Pair<Set<Campaign>, Long> = sql {
+    ): PagedEntities<Campaign> = sql {
         val totalCount = CampaignTable.id.count().over().alias("total_count")
         var countValue: Long? = null
         CampaignTable.select(totalCount, CampaignTable).where { CampaignTable.advertiserId eq advertiserId }
@@ -127,7 +129,7 @@ object DatabaseCampaignRepo : CampaignRepo, KoinComponent {
             .mapTo(mutableSetOf()) {
                 countValue = it.getOrNull(totalCount)
                 toCampaign(it)
-            } to (countValue ?: 0)
+            }.paged(countValue ?: 0)
     }
 
     override suspend fun getRelevantCampaignForClient(client: Client, day: Int): Campaign? = sql {
@@ -323,8 +325,8 @@ object DatabaseCampaignRepo : CampaignRepo, KoinComponent {
             }
     }
 
-    override suspend fun getAll(): List<Campaign> = sql {
-        CampaignTable.selectAll().map { toCampaign(it) }
+    override suspend fun getAll(): Set<Campaign> = sql {
+        CampaignTable.selectAll().mapTo(mutableSetOf()) { toCampaign(it) }
     }
 
     private data class NormsData(

@@ -7,15 +7,15 @@ import io.mockk.runs
 import io.mockk.mockk
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
-import ru.cororo.corasense.model.ml.data.MLScore
+import ru.cororo.corasense.shared.model.ml.MLScore
 import ru.cororo.corasense.repo.ml.MLScoreRepo
-import ru.cororo.corasense.service.MLScoreService
+import ru.cororo.corasense.service.MLScoreServiceImpl
 import java.util.UUID
 
 // unit тесты написаны при помощи чата гпт
 class MLScoreServiceTests : StringSpec({
     val mlScoreRepo = mockk<MLScoreRepo>()
-    val mlScoreService = MLScoreService(mlScoreRepo)
+    val mlScoreService = MLScoreServiceImpl(mlScoreRepo)
 
     "should return MLScore for given advertiser and client" {
         val advertiserId = UUID.randomUUID()

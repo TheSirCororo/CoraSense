@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-
 plugins {
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.kotlin.serialization)
@@ -11,6 +9,8 @@ plugins {
 }
 
 dependencies {
+    implementation(projects.shared)
+    implementation(libs.bundles.krpc.server)
     implementation(libs.bundles.swagger)
     implementation(libs.bundles.database)
     implementation(libs.ktor.serialization)
@@ -19,6 +19,7 @@ dependencies {
     implementation(libs.micrometer.prometheus)
     implementation(libs.logback)
     implementation(libs.bundles.koin)
+    implementation(libs.koin.ktor)
     implementation(libs.konform)
     implementation(libs.aedile.core)
 
@@ -40,18 +41,13 @@ application {
     mainClass.set("ru.cororo.corasense.CoraSenseApplicationKt")
 }
 
+kotlin {
+    jvmToolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
 tasks {
-    compileJava {
-        options.encoding = "UTF-8"
-        options.release.set(17)
-        sourceCompatibility = "17"
-        targetCompatibility = "17"
-    }
-
-    compileKotlin {
-        compilerOptions.jvmTarget.set(JvmTarget.JVM_17)
-    }
-
     build {
         dependsOn(shadowJar)
     }

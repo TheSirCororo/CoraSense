@@ -8,13 +8,13 @@ import io.mockk.coVerify
 import io.mockk.just
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
-import ru.cororo.corasense.model.action.data.AdAction
-import ru.cororo.corasense.model.action.data.AdActionStats
-import ru.cororo.corasense.model.action.data.AdActionStatsDaily
+import ru.cororo.corasense.shared.model.action.AdAction
+import ru.cororo.corasense.shared.model.action.AdActionStats
+import ru.cororo.corasense.shared.model.action.AdActionStatsDaily
 import ru.cororo.corasense.repo.action.AdActionRepo
-import ru.cororo.corasense.service.AdActionService
-import ru.cororo.corasense.service.CurrentDayService
+import ru.cororo.corasense.service.AdActionServiceImpl
 import ru.cororo.corasense.service.MicrometerService
+import ru.cororo.corasense.shared.service.CurrentDayService
 import java.util.UUID
 
 // unit тесты написаны при помощи чата гпт
@@ -22,7 +22,7 @@ class AdActionServiceTests : StringSpec({
     val adActionRepo = mockk<AdActionRepo>()
     val currentDayService = mockk<CurrentDayService>()
     val micrometerService = mockk<MicrometerService>(relaxed = true)
-    val adActionService = AdActionService(adActionRepo, currentDayService, micrometerService)
+    val adActionService = AdActionServiceImpl(adActionRepo, currentDayService, micrometerService)
 
     "should return total campaign stats" {
         val campaignId = UUID.randomUUID()

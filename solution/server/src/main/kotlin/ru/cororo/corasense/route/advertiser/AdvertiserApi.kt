@@ -1,27 +1,27 @@
 package ru.cororo.corasense.route.advertiser
 
+import io.github.smiley4.ktoropenapi.resources.get
+import io.github.smiley4.ktoropenapi.resources.post
 import io.ktor.http.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import org.koin.core.component.get
 import ru.cororo.corasense.inject.api
-import ru.cororo.corasense.model.advertiser.data.Advertiser
 import ru.cororo.corasense.model.dto.Errors
 import ru.cororo.corasense.model.dto.StatusResponse
 import ru.cororo.corasense.model.dto.respond
 import ru.cororo.corasense.model.dto.respondOk
-import ru.cororo.corasense.model.ml.data.MLScore
-import ru.cororo.corasense.model.moderation.data.ModerationScope
-import ru.cororo.corasense.model.moderation.data.ModerationVerdict
 import ru.cororo.corasense.route.Paths
-import ru.cororo.corasense.service.AdvertiserService
-import ru.cororo.corasense.service.ClientService
-import ru.cororo.corasense.service.MLScoreService
-import ru.cororo.corasense.service.ModerationService
-import io.github.smiley4.ktoropenapi.resources.get
+import ru.cororo.corasense.shared.model.advertiser.Advertiser
+import ru.cororo.corasense.shared.model.ml.MLScore
+import ru.cororo.corasense.shared.model.moderation.ModerationScope
+import ru.cororo.corasense.shared.model.moderation.ModerationVerdict
+import ru.cororo.corasense.shared.service.AdvertiserService
+import ru.cororo.corasense.shared.service.ClientService
+import ru.cororo.corasense.shared.service.MLScoreService
+import ru.cororo.corasense.shared.service.ModerationService
 import ru.cororo.corasense.util.parseUuid
-import io.github.smiley4.ktoropenapi.resources.post
 
 fun Route.advertiserApi() = api {
     val moderationService = it.get<ModerationService>()

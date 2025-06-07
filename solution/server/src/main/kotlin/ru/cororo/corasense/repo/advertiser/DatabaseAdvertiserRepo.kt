@@ -4,7 +4,7 @@ import org.jetbrains.exposed.v1.core.ResultRow
 import org.jetbrains.exposed.v1.core.lowerCase
 import org.jetbrains.exposed.v1.jdbc.selectAll
 import org.jetbrains.exposed.v1.jdbc.upsert
-import ru.cororo.corasense.model.advertiser.data.Advertiser
+import ru.cororo.corasense.shared.model.advertiser.Advertiser
 import ru.cororo.corasense.plugin.sql
 import ru.cororo.corasense.util.deleteById
 import ru.cororo.corasense.util.getById
@@ -38,12 +38,12 @@ object DatabaseAdvertiserRepo : AdvertiserRepo {
         AdvertiserTable.getById(id)?.asAdvertiser()
     }
 
-    override suspend fun getAll(): List<Advertiser> = sql {
-        AdvertiserTable.selectAll().map { it.asAdvertiser() }
+    override suspend fun getAll(): Set<Advertiser> = sql {
+        AdvertiserTable.selectAll().mapTo(mutableSetOf()) { it.asAdvertiser() }
     }
 
-    override suspend fun findByName(name: String): List<Advertiser> = sql {
+    override suspend fun findByName(name: String): Set<Advertiser> = sql {
         AdvertiserTable.selectAll().where { AdvertiserTable.name.lowerCase() eq name.lowercase() }
-            .map { it.asAdvertiser() }
+            .mapTo(mutableSetOf()) { it.asAdvertiser() }
     }
 }

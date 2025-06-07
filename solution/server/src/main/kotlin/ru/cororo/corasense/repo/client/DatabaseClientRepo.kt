@@ -3,7 +3,7 @@ package ru.cororo.corasense.repo.client
 import org.jetbrains.exposed.v1.core.ResultRow
 import org.jetbrains.exposed.v1.jdbc.selectAll
 import org.jetbrains.exposed.v1.jdbc.upsert
-import ru.cororo.corasense.model.client.data.Client
+import ru.cororo.corasense.shared.model.client.Client
 import ru.cororo.corasense.plugin.sql
 import ru.cororo.corasense.util.deleteById
 import ru.cororo.corasense.util.getById

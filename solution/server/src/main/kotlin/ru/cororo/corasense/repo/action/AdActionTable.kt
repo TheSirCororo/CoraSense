@@ -1,7 +1,7 @@
 package ru.cororo.corasense.repo.action
 
 import org.jetbrains.exposed.v1.core.dao.id.UUIDTable
-import ru.cororo.corasense.model.action.data.AdAction
+import ru.cororo.corasense.shared.model.action.AdAction
 import ru.cororo.corasense.repo.advertiser.AdvertiserTable
 import ru.cororo.corasense.repo.campaign.CampaignTable
 import ru.cororo.corasense.repo.client.ClientTable

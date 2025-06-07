@@ -14,9 +14,9 @@ import org.jetbrains.exposed.v1.jdbc.deleteWhere
 import org.jetbrains.exposed.v1.jdbc.select
 import org.jetbrains.exposed.v1.jdbc.selectAll
 import org.jetbrains.exposed.v1.jdbc.upsert
-import ru.cororo.corasense.model.action.data.AdAction
-import ru.cororo.corasense.model.action.data.AdActionStats
-import ru.cororo.corasense.model.action.data.AdActionStatsDaily
+import ru.cororo.corasense.shared.model.action.AdAction
+import ru.cororo.corasense.shared.model.action.AdActionStats
+import ru.cororo.corasense.shared.model.action.AdActionStatsDaily
 import ru.cororo.corasense.plugin.sql
 import ru.cororo.corasense.repo.campaign.CampaignTable
 import ru.cororo.corasense.util.deleteById

@@ -1,6 +1,6 @@
 package ru.cororo.corasense.repo.image
 
-import ru.cororo.corasense.model.image.Image
+import ru.cororo.corasense.shared.model.image.Image
 import ru.cororo.corasense.repo.CachedCrudRepo
 import java.util.UUID
 

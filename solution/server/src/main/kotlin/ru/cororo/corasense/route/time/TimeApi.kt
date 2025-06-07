@@ -1,15 +1,15 @@
 package ru.cororo.corasense.route.time
 
-import io.ktor.http.HttpStatusCode
-import io.ktor.server.request.receive
-import io.ktor.server.response.respond
-import io.ktor.server.routing.Route
+import io.github.smiley4.ktoropenapi.resources.post
+import io.ktor.http.*
+import io.ktor.server.request.*
+import io.ktor.server.response.*
+import io.ktor.server.routing.*
 import org.koin.core.component.get
 import ru.cororo.corasense.inject.api
 import ru.cororo.corasense.model.time.dto.TimeUpdateRequest
 import ru.cororo.corasense.route.Paths
-import ru.cororo.corasense.service.CurrentDayService
-import io.github.smiley4.ktoropenapi.resources.post
+import ru.cororo.corasense.shared.service.CurrentDayService
 
 fun Route.timeApi() = api {
     val currentDayService = it.get<CurrentDayService>()

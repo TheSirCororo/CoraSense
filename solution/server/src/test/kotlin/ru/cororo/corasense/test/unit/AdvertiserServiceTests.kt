@@ -8,9 +8,9 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.just
 import io.mockk.mockk
-import ru.cororo.corasense.model.advertiser.data.Advertiser
+import ru.cororo.corasense.shared.model.advertiser.Advertiser
 import ru.cororo.corasense.repo.advertiser.AdvertiserRepo
-import ru.cororo.corasense.service.AdvertiserService
+import ru.cororo.corasense.service.AdvertiserServiceImpl
 import ru.cororo.corasense.service.MicrometerService
 import java.util.UUID
 
@@ -18,7 +18,7 @@ import java.util.UUID
 class AdvertiserServiceTests : StringSpec({
     val advertiserRepo = mockk<AdvertiserRepo>()
     val micrometerService = mockk<MicrometerService>()
-    val advertiserService = AdvertiserService(advertiserRepo, micrometerService)
+    val advertiserService = AdvertiserServiceImpl(advertiserRepo, micrometerService)
 
     beforeTest {
         clearAllMocks()
@@ -64,7 +64,7 @@ class AdvertiserServiceTests : StringSpec({
     }
 
     "should return advertisers by name" {
-        val advertisers = listOf(Advertiser(UUID.randomUUID(), "Test Advertiser"))
+        val advertisers = setOf(Advertiser(UUID.randomUUID(), "Test Advertiser"))
         coEvery { advertiserRepo.findByName("Test") } returns advertisers
 
         val result = advertiserService.findAdvertisersByName("Test")
@@ -74,7 +74,7 @@ class AdvertiserServiceTests : StringSpec({
     }
 
     "should return all advertisers" {
-        val advertisers = listOf(Advertiser(UUID.randomUUID(), "Test Advertiser"))
+        val advertisers = setOf(Advertiser(UUID.randomUUID(), "Test Advertiser"))
         coEvery { advertiserRepo.getAll() } returns advertisers
 
         val result = advertiserService.getAllAdvertisers()

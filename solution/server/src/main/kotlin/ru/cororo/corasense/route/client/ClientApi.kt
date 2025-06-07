@@ -1,23 +1,23 @@
 package ru.cororo.corasense.route.client
 
+import io.github.smiley4.ktoropenapi.resources.get
+import io.github.smiley4.ktoropenapi.resources.post
 import io.ktor.http.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import org.koin.core.component.get
 import ru.cororo.corasense.inject.api
-import ru.cororo.corasense.model.client.data.Client
 import ru.cororo.corasense.model.dto.Errors
 import ru.cororo.corasense.model.dto.StatusResponse
 import ru.cororo.corasense.model.dto.respond
-import ru.cororo.corasense.model.moderation.data.ModerationScope
-import ru.cororo.corasense.model.moderation.data.ModerationVerdict
 import ru.cororo.corasense.route.Paths
-import ru.cororo.corasense.service.ClientService
-import ru.cororo.corasense.service.ModerationService
-import io.github.smiley4.ktoropenapi.resources.get
+import ru.cororo.corasense.shared.model.client.Client
+import ru.cororo.corasense.shared.model.moderation.ModerationScope
+import ru.cororo.corasense.shared.model.moderation.ModerationVerdict
+import ru.cororo.corasense.shared.service.ClientService
+import ru.cororo.corasense.shared.service.ModerationService
 import ru.cororo.corasense.util.parseUuid
-import io.github.smiley4.ktoropenapi.resources.post
 
 fun Route.clientApi() = api {
     val clientService = it.get<ClientService>()
