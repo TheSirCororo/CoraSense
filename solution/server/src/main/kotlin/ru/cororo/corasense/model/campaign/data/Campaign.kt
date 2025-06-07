@@ -49,5 +49,3 @@ data class Campaign(
 }
 
 suspend fun Campaign.hasStarted(currentDayService: CurrentDayService) = currentDayService.getCurrentDay() >= startDate
-
-suspend fun Campaign.hasEnded(currentDayService: CurrentDayService) = currentDayService.getCurrentDay() > endDate

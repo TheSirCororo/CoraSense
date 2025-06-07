@@ -188,6 +188,6 @@ object PrometheusMicrometerService : CoroutineScope, KoinComponent, MicrometerSe
     }
 
     private fun getGauge(name: String, tags: List<Tag>) = gauges.getOrPut(name to tags) {
-        meterRegistry.gauge(name, tags, AtomicReference(0.0)) { it.get() }
+        meterRegistry.gauge(name, tags, AtomicReference(0.0)) { it.get() } ?: error("null gauge was not expected")
     }
 }

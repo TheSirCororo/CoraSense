@@ -80,10 +80,10 @@ class CachedAdActionRepo(backedRepo: AdActionRepo) : CachedCrudRepo<UUID, AdActi
     }
 
     private fun getDailyStats(actions: Collection<AdAction>): Map<Int, AdActionStatsDaily> {
-        var impressionsCount = mutableMapOf<Int, AtomicLong>()
-        var clicksCount = mutableMapOf<Int, AtomicLong>()
-        var spentImpressions = mutableMapOf<Int, AtomicReference<Double>>()
-        var spentClicks = mutableMapOf<Int, AtomicReference<Double>>()
+        val impressionsCount = mutableMapOf<Int, AtomicLong>()
+        val clicksCount = mutableMapOf<Int, AtomicLong>()
+        val spentImpressions = mutableMapOf<Int, AtomicReference<Double>>()
+        val spentClicks = mutableMapOf<Int, AtomicReference<Double>>()
         actions.forEach { action ->
             when (action.type) {
                 AdAction.Type.IMPRESSION -> {
