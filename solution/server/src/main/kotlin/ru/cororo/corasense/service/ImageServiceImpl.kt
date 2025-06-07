@@ -13,9 +13,7 @@ import ru.cororo.corasense.shared.service.ImageService
 import ru.cororo.corasense.storage.FileImageStorageProvider
 import ru.cororo.corasense.storage.ImageStorageProvider
 import ru.cororo.corasense.storage.S3ImageStorageProvider
-import software.amazon.awssdk.services.s3.model.NoSuchKeyException
 import java.io.File
-import java.io.FileNotFoundException
 import java.util.*
 import kotlin.coroutines.CoroutineContext
 
@@ -65,15 +63,9 @@ class ImageServiceImpl(
         imageRepo.delete(id)
     }
 
-    override fun loadImageBytes(id: UUID): Flow<ByteArray>? =
-        try {
-            flow {
-                emit(storage.loadImage(id))
-            }
-        } catch (_: NoSuchKeyException) {
-            null
-        } catch (_: FileNotFoundException) {
-            null
+    override fun loadImageBytes(id: UUID): Flow<ByteArray> =
+        flow {
+            emit(storage.loadImage(id))
         }
 
     companion object {

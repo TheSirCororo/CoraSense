@@ -35,11 +35,11 @@ aedile = "2.1.2"
 micrometer = "1.15.0"
 
 # Testing
-kotest = "6.0.0.M4"
+kotest = "5.9.1"
 kotest-assertions-ktor = "2.0.0"
 kotest-extensions-testcontainers = "2.0.2"
 testcontainers-postgresql = "1.21.1"
-mockk = "1.13.16"
+mockk = "1.14.2"
 
 # kotlinx.rpc
 krpc = "0.7.0"
@@ -140,7 +140,7 @@ swagger = ["ktor-swagger-ui", "schema-kenerator-core", "schema-kenerator-jsonsch
 aws = ["aws-s3", "aws-sso", "aws-ssooidc", "aws-apache-client"]
 koin = ["koin-core", "koin-logger-slf4j"]
 database = ["exposed-core", "exposed-jdbc", "exposed-json", "hikaricp", "postgres"]
-test-server = ["kotlin-test", "ktor-server-test-host", "ktor-client-content-negotiation", "ktor-client-mock", "kotest-runner-junit5", "kotest-assertions-core", "kotest-property", "kotest-assertions-ktor", "kotest-extensions-testcontainers", "h2", "postgres", "koin-test", "mockk", "testcontainers-postgresql"]
+test-server = ["kotlin-test", "ktor-server-test-host", "ktor-client-content-negotiation", "ktor-client-mock", "kotest-runner-junit5", "kotest-assertions-core", "kotest-property", "kotest-assertions-ktor", "kotest-extensions-testcontainers", "h2", "koin-test", "mockk", "testcontainers-postgresql"]
 krpc-server = ["rpc-server-api", "rpc-server-ktor", "rpc-serialization-json"]
 krpc-client = ["rpc-client-api", "rpc-client-ktor", "rpc-serialization-json"]
 

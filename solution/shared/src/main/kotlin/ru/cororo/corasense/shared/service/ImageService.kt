@@ -18,5 +18,5 @@ interface ImageService {
 
     suspend fun deleteImage(id: UuidString)
 
-    fun loadImageBytes(id: UuidString): Flow<ByteArray>?
+    fun loadImageBytes(id: UuidString): Flow<ByteArray>
 }

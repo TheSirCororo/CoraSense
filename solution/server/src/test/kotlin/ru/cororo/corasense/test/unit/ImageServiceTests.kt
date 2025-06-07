@@ -6,14 +6,13 @@ import io.ktor.server.config.*
 import io.ktor.server.testing.*
 import io.ktor.test.dispatcher.*
 import io.mockk.*
-import kotlinx.io.files.FileNotFoundException
-import ru.cororo.corasense.shared.model.image.Image
 import ru.cororo.corasense.repo.image.ImageRepo
 import ru.cororo.corasense.service.ImageServiceImpl
+import ru.cororo.corasense.shared.model.image.Image
 import ru.cororo.corasense.storage.FileImageStorageProvider
 import ru.cororo.corasense.storage.ImageStorageProvider
 import ru.cororo.corasense.storage.S3ImageStorageProvider
-import software.amazon.awssdk.services.s3.model.NoSuchKeyException
+import ru.cororo.corasense.util.readByteArray
 import java.util.*
 
 // unit тесты написаны при помощи чата гпт
@@ -104,7 +103,7 @@ class ImageServiceTests : StringSpec({
         runWithService("FILE", mockFileStorage) {
             testSuspend {
                 val bytes = loadImageBytes(testId)
-                bytes shouldBe imageData
+                bytes.readByteArray() shouldBe imageData
                 coVerify { mockFileStorage.loadImage(testId) }
             }
         }
@@ -117,32 +116,7 @@ class ImageServiceTests : StringSpec({
         runWithService("S3", mockS3Storage) {
             testSuspend {
                 val bytes = loadImageBytes(testId)
-                bytes shouldBe imageData
-                coVerify { mockS3Storage.loadImage(testId) }
-            }
-        }
-    }
-
-    "should handle missing image in storage (file)" {
-        coEvery { mockFileStorage.loadImage(testId) } throws FileNotFoundException()
-
-        runWithService("FILE", mockFileStorage) {
-            testSuspend {
-                val bytes = loadImageBytes(testId)
-                bytes shouldBe null
-                coVerify { mockFileStorage.loadImage(testId) }
-            }
-        }
-    }
-
-    "should handle missing image in storage (s3)" {
-        val exception = NoSuchKeyException.builder().message("Test").build()
-        coEvery { mockS3Storage.loadImage(testId) } throws exception
-
-        runWithService("S3", mockS3Storage) {
-            testSuspend {
-                val bytes = loadImageBytes(testId)
-                bytes shouldBe null
+                bytes.readByteArray() shouldBe imageData
                 coVerify { mockS3Storage.loadImage(testId) }
             }
         }
