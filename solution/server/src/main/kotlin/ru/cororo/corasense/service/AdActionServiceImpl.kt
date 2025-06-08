@@ -1,12 +1,11 @@
 package ru.cororo.corasense.service
 
 import kotlinx.coroutines.CoroutineName
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import ru.cororo.corasense.repo.action.AdActionRepo
 import ru.cororo.corasense.shared.model.action.AdAction
 import ru.cororo.corasense.shared.model.action.AdActionStats
 import ru.cororo.corasense.shared.model.action.AdActionStatsDaily
-import ru.cororo.corasense.repo.action.AdActionRepo
 import ru.cororo.corasense.shared.service.AdActionService
 import ru.cororo.corasense.shared.service.CurrentDayService
 import java.util.*
@@ -16,7 +15,7 @@ class AdActionServiceImpl(
     private val adActionRepo: AdActionRepo,
     private val currentDayService: CurrentDayService,
     private val micrometerService: MicrometerService
-) : AdActionService, CoroutineScope {
+) : AdActionService {
 
     override val coroutineContext: CoroutineContext = Dispatchers.Default + CoroutineName("AdActionServiceImpl")
 
@@ -51,7 +50,8 @@ class AdActionServiceImpl(
     override suspend fun hasImpressed(clientId: UUID, campaignId: UUID) =
         adActionRepo.getUserImpression(campaignId, clientId) != null
 
-    override suspend fun getUserClick(clientId: UUID, campaignId: UUID) = adActionRepo.getUserClick(campaignId, clientId)
+    override suspend fun getUserClick(clientId: UUID, campaignId: UUID) =
+        adActionRepo.getUserClick(campaignId, clientId)
 
     override suspend fun reachedClickLimit(campaignId: UUID) = adActionRepo.reachedClickLimit(campaignId)
 }

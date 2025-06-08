@@ -1,13 +1,12 @@
 package ru.cororo.corasense.service
 
 import kotlinx.coroutines.CoroutineName
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import ru.cororo.corasense.repo.action.AdActionRepo
+import ru.cororo.corasense.repo.campaign.CampaignRepo
 import ru.cororo.corasense.shared.model.campaign.Campaign
 import ru.cororo.corasense.shared.model.campaign.CampaignCreateData
 import ru.cororo.corasense.shared.model.client.Client
-import ru.cororo.corasense.repo.action.AdActionRepo
-import ru.cororo.corasense.repo.campaign.CampaignRepo
 import ru.cororo.corasense.shared.service.CampaignService
 import ru.cororo.corasense.shared.service.CurrentDayService
 import ru.cororo.corasense.shared.util.PagedEntities
@@ -20,7 +19,7 @@ class CampaignServiceImpl(
     private val adActionRepo: AdActionRepo,
     private val currentDayService: CurrentDayService,
     private val micrometerService: MicrometerService
-) : CampaignService , CoroutineScope {
+) : CampaignService {
 
     override val coroutineContext: CoroutineContext = Dispatchers.Default + CoroutineName("CampaignServiceImpl")
 

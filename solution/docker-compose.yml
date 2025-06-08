@@ -2,9 +2,16 @@ version: '3'
 services:
   backend:
     build:
-      context: server
+      context: .
+      args:
+        MODULE: "server"
     ports:
       - "${SERVER_PORT}:8080"
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8080/ping" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     depends_on:
       postgres:
         condition: service_healthy
@@ -28,14 +35,17 @@ services:
       MODERATION_MODE: ${MODERATION_MODE}
   telegram-bot:
     build:
-      context: telegram-bot
+      context: .
+      args:
+        MODULE: "telegram-bot"
     environment:
       RPC_URL: ${RPC_URL}
       TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN}
     depends_on:
-      - backend
+      backend:
+        condition: service_healthy
   postgres:
-    image: 'postgres:latest'
+    image: 'postgres:17.5'
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}

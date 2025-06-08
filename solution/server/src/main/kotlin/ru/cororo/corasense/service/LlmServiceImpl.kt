@@ -11,7 +11,6 @@ import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
 import io.ktor.server.config.*
 import kotlinx.coroutines.CoroutineName
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.serialization.Serializable
@@ -21,7 +20,7 @@ import ru.cororo.corasense.shared.service.LlmService
 import kotlin.coroutines.CoroutineContext
 import kotlin.time.Duration.Companion.seconds
 
-class LlmServiceImpl(private val application: Application, client: HttpClient? = null) : CoroutineScope, LlmService {
+class LlmServiceImpl(private val application: Application, client: HttpClient? = null) : LlmService {
     private val groqKey = application.environment.config.tryGetString("llm.key") ?: ""
     private var llmEnabled =
         application.environment.config.tryGetString("llm.enabled")?.toBooleanStrictOrNull() == true

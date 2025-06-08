@@ -1,15 +1,17 @@
 package ru.cororo.corasense.service
 
 import kotlinx.coroutines.CoroutineName
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import ru.cororo.corasense.shared.model.advertiser.Advertiser
 import ru.cororo.corasense.repo.advertiser.AdvertiserRepo
+import ru.cororo.corasense.shared.model.advertiser.Advertiser
 import ru.cororo.corasense.shared.service.AdvertiserService
-import java.util.UUID
+import java.util.*
 import kotlin.coroutines.CoroutineContext
 
-class AdvertiserServiceImpl(private val advertiserRepo: AdvertiserRepo, private val micrometerService: MicrometerService) : AdvertiserService , CoroutineScope {
+class AdvertiserServiceImpl(
+    private val advertiserRepo: AdvertiserRepo,
+    private val micrometerService: MicrometerService
+) : AdvertiserService {
 
     override val coroutineContext: CoroutineContext = Dispatchers.Default + CoroutineName("AdvertiserServiceImpl")
 

@@ -1,13 +1,14 @@
 package ru.cororo.corasense.shared.service
 
 import kotlinx.coroutines.flow.Flow
+import kotlinx.rpc.RemoteService
 import kotlinx.rpc.annotations.Rpc
 import ru.cororo.corasense.shared.model.file.FileUploadResult
 import ru.cororo.corasense.shared.model.image.Image
 import ru.cororo.corasense.shared.util.UuidString
 
 @Rpc
-interface ImageService {
+interface ImageService : RemoteService {
     suspend fun maxImageSize(): Long
 
     suspend fun uploadImage(id: UuidString, fileName: String, bytesFlow: Flow<ByteArray>): FileUploadResult?

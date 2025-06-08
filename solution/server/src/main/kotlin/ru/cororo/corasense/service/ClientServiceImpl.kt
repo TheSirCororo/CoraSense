@@ -1,7 +1,6 @@
 package ru.cororo.corasense.service
 
 import kotlinx.coroutines.CoroutineName
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import ru.cororo.corasense.repo.client.ClientRepo
 import ru.cororo.corasense.shared.model.client.Client
@@ -9,7 +8,7 @@ import ru.cororo.corasense.shared.service.ClientService
 import java.util.*
 import kotlin.coroutines.CoroutineContext
 
-class ClientServiceImpl(private val clientRepo: ClientRepo) : ClientService, CoroutineScope {
+class ClientServiceImpl(private val clientRepo: ClientRepo) : ClientService {
 
     override val coroutineContext: CoroutineContext = Dispatchers.Default + CoroutineName("ClientServiceImpl")
 

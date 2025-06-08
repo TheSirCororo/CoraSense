@@ -1,0 +1,9 @@
+.env-compose
+.env-dev
+openapi.yml
+.idea
+build
+.gradle
+.kotlin
+images
+.env

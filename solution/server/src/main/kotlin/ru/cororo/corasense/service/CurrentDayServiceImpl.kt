@@ -1,7 +1,6 @@
 package ru.cororo.corasense.service
 
 import kotlinx.coroutines.CoroutineName
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import org.jetbrains.exposed.v1.jdbc.insert
 import org.jetbrains.exposed.v1.jdbc.selectAll
@@ -15,7 +14,7 @@ import ru.cororo.corasense.repo.time.CurrentDayTable
 import ru.cororo.corasense.shared.service.CurrentDayService
 import kotlin.coroutines.CoroutineContext
 
-class CurrentDayServiceImpl : CurrentDayService, KoinComponent, CoroutineScope {
+class CurrentDayServiceImpl : CurrentDayService, KoinComponent {
 
     override val coroutineContext: CoroutineContext = Dispatchers.Default + CoroutineName("CurrentDayServiceImpl")
 

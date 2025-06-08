@@ -1,11 +1,12 @@
 package ru.cororo.corasense.shared.service
 
+import kotlinx.rpc.RemoteService
 import kotlinx.rpc.annotations.Rpc
 import ru.cororo.corasense.shared.model.client.Client
 import ru.cororo.corasense.shared.util.UuidString
 
 @Rpc
-interface ClientService {
+interface ClientService : RemoteService {
     suspend fun getClient(id: UuidString): Client?
 
     suspend fun saveClient(client: Client)

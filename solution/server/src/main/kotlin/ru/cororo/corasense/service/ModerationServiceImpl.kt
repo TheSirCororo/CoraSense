@@ -5,7 +5,6 @@ import io.ktor.server.application.log
 import io.ktor.server.config.tryGetString
 import io.ktor.server.config.tryGetStringList
 import kotlinx.coroutines.CoroutineName
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import ru.cororo.corasense.shared.model.moderation.ModerationScope
 import ru.cororo.corasense.shared.model.moderation.ModerationVerdict
@@ -16,8 +15,7 @@ import ru.cororo.corasense.shared.model.moderation.ModerationMode
 import ru.cororo.corasense.shared.service.ModerationService
 import kotlin.coroutines.CoroutineContext
 
-class ModerationServiceImpl(private val application: Application) :
-    ModerationService, CoroutineScope {
+class ModerationServiceImpl(private val application: Application) : ModerationService {
 
     override val coroutineContext: CoroutineContext = Dispatchers.Default + CoroutineName("ModerationServiceImpl")
 

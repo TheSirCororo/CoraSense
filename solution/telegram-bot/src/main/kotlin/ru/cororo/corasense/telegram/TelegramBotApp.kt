@@ -4,7 +4,6 @@ import eu.vendeli.tgbot.TelegramBot
 import eu.vendeli.tgbot.utils.common.TgException
 import io.ktor.client.*
 import io.ktor.client.plugins.*
-import io.ktor.client.request.*
 import kotlinx.coroutines.CancellationException
 import kotlinx.rpc.krpc.ktor.client.installKrpc
 import kotlinx.rpc.krpc.ktor.client.rpc
@@ -16,15 +15,7 @@ import org.koin.core.context.stopKoin
 import org.koin.dsl.module
 import org.koin.logger.slf4jLogger
 import org.slf4j.LoggerFactory
-import ru.cororo.corasense.shared.service.AdActionService
-import ru.cororo.corasense.shared.service.AdvertiserService
-import ru.cororo.corasense.shared.service.CampaignService
-import ru.cororo.corasense.shared.service.ClientService
-import ru.cororo.corasense.shared.service.CurrentDayService
-import ru.cororo.corasense.shared.service.ImageService
-import ru.cororo.corasense.shared.service.LlmService
-import ru.cororo.corasense.shared.service.MLScoreService
-import ru.cororo.corasense.shared.service.ModerationService
+import ru.cororo.corasense.shared.service.*
 
 class TelegramBotApp(config: BotConfig) {
     private val telegramBotToken = config.botToken
@@ -51,7 +42,9 @@ class TelegramBotApp(config: BotConfig) {
 }
 
 suspend fun main() {
-    val config = BotConfig(System.getenv("RPC_URL") ?: "ws://localhost:8080/rpc", System.getenv("TELEGRAM_BOT_TOKEN") ?: "")
+    val config =
+        BotConfig(System.getenv("RPC_URL") ?: "ws://localhost:8080/rpc", System.getenv("TELEGRAM_BOT_TOKEN") ?: "")
+    println("Config: $config")
 
     val httpClient = HttpClient {
         installKrpc {
@@ -59,9 +52,9 @@ suspend fun main() {
         }
     }
 
-    val krpcClient = httpClient.rpc {
+    val krpcClient = httpClient.rpc(config.rpcUrl) {
         rpcConfig {
-            url(config.rpcUrl)
+            waitForServices = true
 
             serialization {
                 json()

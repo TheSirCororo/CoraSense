@@ -1,11 +1,12 @@
 package ru.cororo.corasense.shared.service
 
+import kotlinx.rpc.RemoteService
 import kotlinx.rpc.annotations.Rpc
 import ru.cororo.corasense.shared.model.advertiser.Advertiser
 import ru.cororo.corasense.shared.util.UuidString
 
 @Rpc
-interface AdvertiserService {
+interface AdvertiserService : RemoteService {
     suspend fun getAdvertiser(id: UuidString): Advertiser?
 
     suspend fun saveAdvertiser(advertiser: Advertiser)

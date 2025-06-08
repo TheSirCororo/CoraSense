@@ -3,7 +3,6 @@ package ru.cororo.corasense.service
 import io.ktor.server.application.*
 import io.ktor.server.config.*
 import kotlinx.coroutines.CoroutineName
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -21,7 +20,7 @@ class ImageServiceImpl(
     private val imageRepo: ImageRepo,
     application: Application,
     storage: ImageStorageProvider? = null
-) : ImageService, CoroutineScope {
+) : ImageService {
 
     override val coroutineContext: CoroutineContext = Dispatchers.Default + CoroutineName("ImageServiceImpl")
 
