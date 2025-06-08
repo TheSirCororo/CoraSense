@@ -30,4 +30,10 @@ tasks {
     build {
         dependsOn(shadowJar)
     }
+
+    listOf(distTar, distZip, shadowDistTar, shadowDistZip).forEach {
+        it {
+            enabled = false
+        }
+    }
 }

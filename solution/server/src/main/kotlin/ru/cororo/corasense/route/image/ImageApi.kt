@@ -17,6 +17,7 @@ import ru.cororo.corasense.model.dto.respond
 import ru.cororo.corasense.model.dto.respondOk
 import ru.cororo.corasense.route.Paths
 import ru.cororo.corasense.service.ImageServiceImpl
+import ru.cororo.corasense.shared.model.file.FileUploadResult
 import ru.cororo.corasense.shared.model.image.Image
 import ru.cororo.corasense.shared.service.ImageService
 import ru.cororo.corasense.util.asBytesFlow
@@ -58,11 +59,19 @@ fun Route.imageApi() = api {
         val uploadFileName = part.originalFileName ?: Errors.BadRequest.respond()
         val id = UUID.randomUUID()
         val result = imageService.uploadImage(id, uploadFileName, part.provider().toByteArray().asBytesFlow())
-            ?: Errors.BadRequest.respond()
+        result.collect { result ->
+            when (result) {
+                is FileUploadResult.Success -> {
+                    call.respond(status = HttpStatusCode.Created, imageService.saveImageData(id, result.resultFileName))
+                }
 
-        part.dispose()
+                is FileUploadResult.Failure -> {
+                    Errors.BadRequest.respond()
+                }
+            }
 
-        call.respond(status = HttpStatusCode.Created, imageService.saveImageData(id, result.resultFileName))
+            part.dispose()
+        }
     }
 
     get<Paths.Images.ById>({

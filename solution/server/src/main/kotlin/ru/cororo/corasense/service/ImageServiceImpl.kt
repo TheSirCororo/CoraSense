@@ -45,9 +45,10 @@ class ImageServiceImpl(
 
     override suspend fun maxImageSize(): Long = maxImageSize
 
-    override suspend fun uploadImage(id: UUID, fileName: String, bytesFlow: Flow<ByteArray>): FileUploadResult? {
+    override fun uploadImage(id: UUID, fileName: String, bytesFlow: Flow<ByteArray>): Flow<FileUploadResult> = flow {
         val fileName = storage.uploadImage(id, fileName, bytesFlow)
-        return fileName?.let { FileUploadResult(it) }
+        val result = fileName?.let { FileUploadResult.Success(it) } ?: FileUploadResult.Failure()
+        emit(result)
     }
 
     override suspend fun saveImageData(id: UUID, name: String) = imageRepo.createNewImage(id, name)

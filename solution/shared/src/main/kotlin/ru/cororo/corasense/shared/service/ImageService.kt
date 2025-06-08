@@ -11,7 +11,7 @@ import ru.cororo.corasense.shared.util.UuidString
 interface ImageService : RemoteService {
     suspend fun maxImageSize(): Long
 
-    suspend fun uploadImage(id: UuidString, fileName: String, bytesFlow: Flow<ByteArray>): FileUploadResult?
+    fun uploadImage(id: UuidString, fileName: String, bytesFlow: Flow<ByteArray>): Flow<FileUploadResult>
 
     suspend fun saveImageData(id: UuidString, name: String): Image
 

@@ -17,6 +17,7 @@ import io.ktor.client.statement.*
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.withTimeout
 import org.koin.core.component.get
+import ru.cororo.corasense.shared.model.file.FileUploadResult
 import ru.cororo.corasense.shared.service.ImageService
 import ru.cororo.corasense.telegram.handler.cancel.cancelButton
 import ru.cororo.corasense.telegram.util.asBytesFlow
@@ -82,12 +83,23 @@ suspend fun createImageInput(user: User, bot: TelegramBot, update: MessageUpdate
 
             val imageBytes = httpClient.get(bot.getFileDirectUrl(file) ?: return@withTimeout).bodyAsBytes()
             val id = UUID.randomUUID()
-            imageService.uploadImage(id, "image.jpg", imageBytes.asBytesFlow())
-            imageService.saveImageData(id, "image.jpg")
-            message { "Готово! ID: $id" }.send(user, bot)
+            imageService.uploadImage(id, "image.jpg", imageBytes.asBytesFlow()).collect { result ->
+                when (result) {
+                    is FileUploadResult.Success -> {
+                        imageService.saveImageData(id, "image.jpg")
+                        message { "Готово! ID: $id" }.send(user, bot)
+                    }
+
+                    is FileUploadResult.Failure -> {
+                        message { "Не удалось загрузить изображение. Повторите попытку." }.send(user, bot)
+                        fail()
+                    }
+                }
+
+            }
         }
     } catch (_: TimeoutCancellationException) {
-        message { "Не удалось скачать изображение. Повторите попытку." }.send(user, bot)
+        message { "Не удалось загрузить изображение. Повторите попытку." }.send(user, bot)
         fail()
     }
 }
@@ -121,11 +133,5 @@ suspend fun getImageByIdInput(user: User, bot: TelegramBot, update: ProcessedUpd
     }
 
     val imageData = imageService.loadImageBytes(id)
-        ?: run {
-            message { "❌ Ничего не найдено. Попробуй снова." }.inlineKeyboardMarkup { cancelButton() }.send(user, bot)
-            bot.inputListener[user] = "get-image"
-            return@telegramApi
-        }
-
     sendPhoto(ImplicitFile.InpFile(imageData.readByteArray().toInputFile("image.jpg", "image/jpeg"))).send(user, bot)
 }
